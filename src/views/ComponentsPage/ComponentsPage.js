@@ -15,6 +15,9 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Parallax from "components/Parallax/Parallax.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
+
+
+
 // sections for this page
 import SectionBasics from "./Sections/SectionBasics.js";
 import SectionNavbars from "./Sections/SectionNavbars.js";
