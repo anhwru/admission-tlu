@@ -59,22 +59,36 @@ export default function Admis_Form(props) {
 
 	// useEffect(() => {
 	// 	async function fetchData() {
-	// 		const requestUrl = '/api/enrollment';
+	// 		const requestUrl = '/api/city';
 	// 		const response = await fetch(requestUrl);
 	// 		const responseJSON = await response.json();
-	// 		console.log( {responseJSON} );
+	// 		console.log( responseJSON.LtsItem[0] );
 	// 	}
 	// 	fetchData();
 	// }, []);
-
-	console.log(data.highSchools);
-
-	const handleChange = async(event, newValue) => {
-		// console.log(newValue);
-		const requestUrl = `/api/districts?province=${newValue.code}`;
+	// console.log(data);
+	
+	const findDistrict = async (id) => {
+		const requestUrl = `/api/city/${id}/district`;
 		const response = await fetch(requestUrl);
 		const responseJSON = await response.json();
-		setName(responseJSON);
+		return responseJSON;
+	}
+
+	const handleChange = async (event, newValue) => {
+		console.log(newValue);
+		const requestUrl = `/api/city`;
+		const response = await fetch(requestUrl);
+		const responseJSON = await response.json();
+		let province = await responseJSON.LtsItem.filter((value, key) => {
+			return value.Title == newValue.name;
+		})
+
+		const districtList = await findDistrict(province[0].ID);
+		console.log(districtList);
+		
+		await setName(districtList);
+
 	};
 
 
@@ -184,14 +198,14 @@ export default function Admis_Form(props) {
 						style={{ width: '300', }}
 						renderInput={(params) => <TextField {...params} value={params.id} label="Mã Tỉnh" variant="outlined" />}
 						onChange={handleChange}
-						renderOption={(option) => <div style={{ color: "red" }}>{option.name}-{option.code}</div>}
+						// renderOption={(option) => <div style={{ color: "red" }}>{option.name}-{option.code}</div>}
 					/>
 				</GridItem>
 				<GridItem xs={4} lg={4} md={4} className="mg-10">
 					<Autocomplete
 						id="combo-box-demo"
 						options={name}
-						getOptionLabel={(option) => option.name}
+						getOptionLabel={(option) => option.Title}
 						style={{ width: '300', }}
 						disabled={name===null}
 						renderInput={(params) => <TextField {...params} label="Mã Huyện" variant="outlined" />}
