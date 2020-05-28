@@ -26,7 +26,6 @@ import ComponentsPage from "views/ComponentsPage/ComponentsPage.js";
 import AdmissionPage from "./views/AdmissionPage/AdmissionPage";
 import IndexPage from "./views/IndexPage/IndexPage";
 
-
 var hist = createBrowserHistory();
 
 ReactDOM.render(
