@@ -89,7 +89,7 @@ export default function VInfo() {
 								{/*Form nhập điểm cho thí sinh*/}
 								<GridItem xs={12} sm={12} md={12} className="bg-e">
 										<Accordion
-												active={-1}
+												active={0}
 												activeColor="info"
 												collapses={[
 														{

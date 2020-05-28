@@ -1,19 +1,4 @@
-/*!
 
-=========================================================
-* Material Kit PRO React - v1.8.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-kit-pro-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
@@ -23,8 +8,9 @@ import "assets/scss/material-kit-pro-react.scss?v=1.8.0";
 
 // pages for this product
 import ComponentsPage from "views/ComponentsPage/ComponentsPage.js";
-import AdmissionPage from "./views/AdmissionPage/AdmissionPage";
 import IndexPage from "./views/IndexPage/IndexPage";
+import AdmisstionInfoPage from "./views/AdmisstionInfo/AdmissionInfoPage";
+import NewsPage from "./views/NewsPage/NewsPage";
 
 
 var hist = createBrowserHistory();
@@ -32,7 +18,8 @@ var hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-      <Route path="/form" component={AdmissionPage} />
+      <Route path="/thong-tin-cac-nganh" component={AdmisstionInfoPage} />
+      <Route path="/thong-tin-tuyen-sinh" component={NewsPage} />
       <Route path="/components" component={ComponentsPage} />
       <Route path="/" component={IndexPage} />
     </Switch>

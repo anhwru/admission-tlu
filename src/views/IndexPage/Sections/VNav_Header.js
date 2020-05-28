@@ -9,6 +9,7 @@ import {
 import {makeStyles} from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Badge from '@material-ui/core/Badge';
 // @material-ui/icons
 import Settings from "@material-ui/icons/Settings";
@@ -92,7 +93,7 @@ function VNav_Header() {
 												</List>
 												<List className={classes.list + " " + classes.mlAuto}>
 														<ListItem className={classes.listItem}>
-																<Link to="/components">
+																<Link to="/">
 																		<Button
 																				className={classes.navLink + " " + classes.navLinkActive}
 																				color="transparent"
@@ -102,30 +103,48 @@ function VNav_Header() {
 																</Link>
 														</ListItem>
 														<ListItem className={classes.listItem}>
-																<Button
-																		className={classes.navLink}
-																		onClick={e => e.preventDefault()}
-																		color="transparent"
-																>
-																		<Info/> Giới thiệu
-																</Button>
+																<CustomDropdown
+																		buttonIcon={Assignment}
+																		buttonText="Thông tin tuyển sinh"
+																		buttonProps={{
+																				className: classes.navLink,
+																				color: "transparent"
+																		}}
+																		dropdownList={[
+																				<Link to="thong-tin-cac-nganh">
+																						<Button
+																								color="transparent">
+																								<AccountCircle/> Thông tin các ngành
+																						</Button>
+																				</Link>,
+																				<Link to="thong-tin-tuyen-sinh">
+																						<Button
+																								color="transparent">
+																								<AccountCircle/> Thông báo tuyển sinh
+																						</Button>
+																				</Link>,
+																		]}
+																/>
 														</ListItem>
 														<ListItem className={classes.listItem}>
-																<Button
-																		href="#pablo"
-																		className={classes.navLink}
-																		onClick={e => e.preventDefault()}
-																		color="transparent"
-																>
-																		<Assignment/> Tư vấn tuyển sinh
-																</Button>
-														</ListItem>
-														<ListItem className={classes.listItem}>
-																<Button className={classes.navLink}
+																<Link to="tu-van-tuyen-sinh">
+																		<Button
+																				className={classes.navLink}
 																				color="transparent"
-																				onClick={() => setLoginModal(true)}>
-																		<AccountCircle/> Thông tin tuyển sinh
-																</Button>
+																		>
+																				<Assignment/> Tư vấn tuyển sinh
+																		</Button>
+																</Link>
+														</ListItem>
+														<ListItem className={classes.listItem}>
+																<Link to="gioi-thieu">
+																		<Button
+																				className={classes.navLink}
+																				color="transparent"
+																		>
+																				<Info/> Giới thiệu
+																		</Button>
+																</Link>
 														</ListItem>
 												</List>
 										</>

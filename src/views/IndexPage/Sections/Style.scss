@@ -1,10 +1,27 @@
 //-------------------------------- Nav Header -----------------------------
 header {
   padding: 0 !important;
-  z-index: 999999 !important;
+  z-index: 99 !important;
 }
 
 #nav-header {
+  a{
+    color: #00d3ee !important;
+  }
+  button.MuiButtonBase-root.MuiButton-root.MuiButton-text.makeStyles-button-220.makeStyles-transparent-243.makeStyles-navLink-5 {
+    color: #00d3ee;
+  }
+  li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.makeStyles-dropdownItem-269.makeStyles-primaryHover-271.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button {
+    padding: 0;
+    box-shadow: none;
+    background: white;
+    button{
+      &:hover{
+        background: #00acc1 !important;
+        color: white;
+      }
+    }
+  }
   margin-bottom: 80px;
 
   .brand-info {
@@ -83,7 +100,7 @@ div#mui-component-select-simpleSelect {
   margin: 0 !important;
 }
 
-#info-form .makeStyles-formControl-597, .makeStyles-formControl-638, .makeStyles-formControl-630 {
+#info-form .makeStyles-formControl-597, .makeStyles-formControl-638, .makeStyles-formControl-630,.makeStyles-formControl-437 {
   margin: 0 !important;
 }
 
@@ -154,7 +171,9 @@ div#mui-component-select-simpleSelect {
     margin: 5px 10px;
   }
 }
-
+.MuiAutocomplete-popper{
+  z-index: 9 !important;
+}
 //--------------------- Carousel ---------------------------
 #carousel {
   margin: 0 !important;
