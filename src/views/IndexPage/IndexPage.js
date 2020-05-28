@@ -1,15 +1,11 @@
 import React from "react";
 import VNav_Header from "./Sections/VNav_Header.js";
-import VFooter from "./Sections/VFooter.js";
-import VFooterAreas from "./Sections/VFooterAreas.js";
 import "./Sections/Style.scss";
 // import Parallax from "components/Parallax/Parallax.js";
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import Admis_Form from "./Sections/VForm";
 import VTitle from "./Sections/VTitle";
-import VInfo from "./Sections/VInfo";
-
 
 function IndexPage() {
 		document.documentElement.classList.remove("nav-open");

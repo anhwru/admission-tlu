@@ -3,7 +3,6 @@ import React from "react";
 // @material-ui/core components
 import {makeStyles} from "@material-ui/core/styles";
 // @material-ui icons
-import ChatBubble from "@material-ui/icons/ChatBubble";
 import TrendingUp from "@material-ui/icons/TrendingUp";
 import SupervisorAccount from "@material-ui/icons/SupervisorAccount";
 import PersonAdd from "@material-ui/icons/PersonAdd";
@@ -13,9 +12,6 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Danger from "components/Typography/Danger.js";
 import {
-		BrowserRouter as Router,
-		Switch,
-		Route,
 		Link
 } from "react-router-dom";
 
@@ -26,7 +22,6 @@ import stylescard from "assets/jss/material-kit-pro-react/views/componentsSectio
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import Success from "../../../components/Typography/Success";
 
 
 const useStyles = makeStyles(styles);

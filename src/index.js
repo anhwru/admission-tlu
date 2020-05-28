@@ -12,7 +12,6 @@ import IndexPage from "./views/IndexPage/IndexPage";
 import AdmisstionInfoPage from "./views/AdmisstionInfo/AdmissionInfoPage";
 import NewsPage from "./views/NewsPage/NewsPage";
 
-
 var hist = createBrowserHistory();
 
 ReactDOM.render(

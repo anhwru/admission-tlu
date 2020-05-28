@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 // nodejs library that concatenates classes
 // @material-ui/core components
 import {makeStyles} from "@material-ui/core/styles";
@@ -11,8 +11,8 @@ import GridItem from "components/Grid/GridItem.js";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import Navigation from "@material-ui/core/SvgIcon/SvgIcon";
 import Refresh from "@material-ui/icons/Refresh";
+import Navigation from "@material-ui/icons/Navigation";
 
 // style for page
 import styles from "assets/jss/material-kit-pro-react/views/componentsSections/preFooter.js";
@@ -23,10 +23,13 @@ import {DatePicker} from "@material-ui/pickers";
 import FormControl from '@material-ui/core/FormControl';
 import VLine from "./VLine";
 import VLine2 from "./VLine2";
-import RUG from "react-upload-gallery/dist";
+import RUG from 'react-upload-gallery';
+import 'react-upload-gallery/dist/style.css'
 import Accordion from "components/Accordion/Accordion.js";
 import Button from "components/CustomButtons/Button.js";
 
+
+import enrollment from "../../../api/enrollment.json";
 
 const useStyles = makeStyles(styles);
 const useFStyles = makeStyles(formstyles);
@@ -44,41 +47,53 @@ const useStyles1 = makeStyles((theme) => ({
 export default function Admis_Form(props) {
 		const [selectedDate, handleDateChange] = useState(new Date());
 		const [selectedDate2, handleDateChange2] = useState(new Date());
-		const [simpleSelect, setSimpleSelect] = React.useState("");
+		const [simpleSelect, setSimpleSelect] = useState("");
+		
 		const [chonnganh, setchonnganh] = React.useState("");
 		const [chontohop, setchontohop] = React.useState("");
-		const handleSimple = event => {
-				setSimpleSelect(event.target.value);
-		};
+		
+		
 		const handchonnganh = event => {
 				setchonnganh(event.target.value);
 		};
 		const handtohop = event => {
 				setchontohop(event.target.value);
 		};
+		const handleSimple = event => {
+				setSimpleSelect(event.target.value);
+		};
 		const classes = useStyles();
 		const classesform = useFStyles();
 		const classes1 = useStyles1();
-		const [state, setState] = React.useState({
-				age: '',
-				name: 'hai',
-		});
+		const [state, setState] = useState();
 		
-		const handleChange = (event) => {
-				const name = event.target.name;
-				setState({
-						...state,
-						[name]: event.target.value,
-				});
+		const [data, setData] = useState(enrollment);
+		
+		const [name, setName] = useState(null);
+		
+		// const [class10, setClass10] = useState(null);
+		// const [class11, setClass11] = useState(null);
+		// const [class12, setClass12] = useState(null);
+		
+		// useEffect(() => {
+		// 	async function fetchData() {
+		// 		const requestUrl = '/api/enrollment';
+		// 		const response = await fetch(requestUrl);
+		// 		const responseJSON = await response.json();
+		// 		console.log( {responseJSON} );
+		// 	}
+		// 	fetchData();
+		// }, []);
+		
+		console.log(data.highSchools);
+		
+		const handleChange = async (event, newValue) => {
+				// console.log(newValue);
+				const requestUrl = `/api/districts?province=${newValue.code}`;
+				const response = await fetch(requestUrl);
+				const responseJSON = await response.json();
+				setName(responseJSON);
 		};
-		const top100Films = [
-				{title: 'The Shawshank Redemption', year: 1994},
-				{title: 'The Godfather', year: 1972},
-				{title: 'The Godfather: Part II', year: 1974},
-				{title: 'The Dark Knight', year: 2008},
-				{title: '12 Angry Men', year: 1957},
-		
-		];
 		return (
 				<>
 						<div className={classes.container} id="form-data">
@@ -87,8 +102,8 @@ export default function Admis_Form(props) {
 												<SnackbarContent
 														message={
 																<span>
-                             <b>THÔNG TIN THÍ SINH</b>
-                         </span>
+								<b>THÔNG TIN THÍ SINH</b>
+							</span>
 														}
 														color="info"
 														icon="info_outline"
@@ -181,18 +196,22 @@ export default function Admis_Form(props) {
 										<GridItem xs={4} lg={4} md={4} className="mg-10">
 												<Autocomplete
 														id="combo-box-demo"
-														options={top100Films}
-														getOptionLabel={(option) => option.title}
+														options={data.provinces}
+														getOptionLabel={(option) => option.name}
 														style={{width: '300',}}
-														renderInput={(params) => <TextField {...params} label="Mã Tỉnh" variant="outlined"/>}
+														renderInput={(params) => <TextField {...params} value={params.id} label="Mã Tỉnh"
+																																variant="outlined"/>}
+														onChange={handleChange}
+														renderOption={(option) => <div style={{padding: "10px "}}>{option.name}-{option.code}</div>}
 												/>
 										</GridItem>
 										<GridItem xs={4} lg={4} md={4} className="mg-10">
 												<Autocomplete
 														id="combo-box-demo"
-														options={top100Films}
-														getOptionLabel={(option) => option.title}
+														options={name}
+														getOptionLabel={(option) => option.name}
 														style={{width: '300',}}
+														disabled={name === null}
 														renderInput={(params) => <TextField {...params} label="Mã Huyện" variant="outlined"/>}
 												/>
 										</GridItem>
@@ -206,9 +225,10 @@ export default function Admis_Form(props) {
 										<GridItem xs={4} lg={4} md={4} className="mg-10">
 												<Autocomplete
 														id="combo-box-demo"
-														options={top100Films}
-														getOptionLabel={(option) => option.title}
+														options={data.highSchools}
+														getOptionLabel={(option) => option.name}
 														style={{width: '300',}}
+														onChange={handleChange}
 														renderInput={(params) => <TextField {...params} label="Tên trường THPT"
 																																variant="outlined"/>}
 												/>
@@ -228,8 +248,8 @@ export default function Admis_Form(props) {
 										<GridItem xs={4} lg={4} md={4} className="mg-10">
 												<Autocomplete
 														id="combo-box-demo"
-														options={top100Films}
-														getOptionLabel={(option) => option.title}
+														options={data.highSchools}
+														getOptionLabel={(option) => option.name}
 														style={{width: '300',}}
 														renderInput={(params) => <TextField {...params} label="Tên trường THPT"
 																																variant="outlined"/>}
@@ -250,8 +270,8 @@ export default function Admis_Form(props) {
 										<GridItem xs={4} lg={4} md={4} className="mg-10">
 												<Autocomplete
 														id="combo-box-demo"
-														options={top100Films}
-														getOptionLabel={(option) => option.title}
+														options={data.highSchools}
+														getOptionLabel={(option) => option.name}
 														style={{width: '300',}}
 														renderInput={(params) => <TextField {...params} label="Tên trường THPT"
 																																variant="outlined"/>}
@@ -525,13 +545,11 @@ export default function Admis_Form(props) {
 																																	 variant="outlined" required={true}/>
 																										</GridItem>
 																										<GridItem sm={4} xs={4} lg={4} className="mg-10">
-																												<TextField id="outlined-basic" label="Môn thứ 2"
-																																	 variant="outlined"
+																												<TextField id="outlined-basic" label="Môn thứ 2" variant="outlined"
 																																	 required={true}/>
 																										</GridItem>
 																										<GridItem sm={4} xs={4} lg={4} className="mg-10">
-																												<TextField id="outlined-basic" label="Môn thứ 3"
-																																	 variant="outlined"
+																												<TextField id="outlined-basic" label="Môn thứ 3" variant="outlined"
 																																	 required={true}/>
 																										</GridItem>
 																								</>
@@ -544,13 +562,11 @@ export default function Admis_Form(props) {
 																																	 variant="outlined" required={true}/>
 																										</GridItem>
 																										<GridItem sm={4} xs={4} lg={4} className="mg-10">
-																												<TextField id="outlined-basic" label="Môn thứ 2"
-																																	 variant="outlined"
+																												<TextField id="outlined-basic" label="Môn thứ 2" variant="outlined"
 																																	 required={true}/>
 																										</GridItem>
 																										<GridItem sm={4} xs={4} lg={4} className="mg-10">
-																												<TextField id="outlined-basic" label="Môn thứ 3"
-																																	 variant="outlined"
+																												<TextField id="outlined-basic" label="Môn thứ 3" variant="outlined"
 																																	 required={true}/>
 																										</GridItem>
 																								</>
@@ -563,13 +579,11 @@ export default function Admis_Form(props) {
 																																	 variant="outlined" required={true}/>
 																										</GridItem>
 																										<GridItem sm={4} xs={4} lg={4} className="mg-10">
-																												<TextField id="outlined-basic" label="Môn thứ 2"
-																																	 variant="outlined"
+																												<TextField id="outlined-basic" label="Môn thứ 2" variant="outlined"
 																																	 required={true}/>
 																										</GridItem>
 																										<GridItem sm={4} xs={4} lg={4} className="mg-10">
-																												<TextField id="outlined-basic" label="Môn thứ 3"
-																																	 variant="outlined"
+																												<TextField id="outlined-basic" label="Môn thứ 3" variant="outlined"
 																																	 required={true}/>
 																										</GridItem>
 																								</>
