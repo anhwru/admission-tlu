@@ -1,17 +1,13 @@
 import React from "react";
 import {
-		BrowserRouter as Router,
-		Switch,
-		Route,
 		Link
 } from "react-router-dom";
 // @material-ui/core components
 import {makeStyles} from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Badge from '@material-ui/core/Badge';
+import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 // @material-ui/icons
-import Settings from "@material-ui/icons/Settings";
 import Info from "@material-ui/icons/Info";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Explore from "@material-ui/icons/Explore";
@@ -23,21 +19,6 @@ import navbarsStyle from "assets/jss/material-kit-pro-react/views/componentsSect
 import javascriptStyles from "assets/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.js";
 import Headroom from "headroom.js";
 import logo from "assets/img/tlu.png";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Close from "@material-ui/core/SvgIcon/SvgIcon";
-import DialogContent from "@material-ui/core/DialogContent";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-import DialogActions from "@material-ui/core/DialogActions";
-import GridContainer from "components/Grid/GridContainer.js";
-import GridItem from "components/Grid/GridItem.js";
-import InfoArea from "components/InfoArea/InfoArea.js";
-import Timeline from "@material-ui/icons/Timeline";
-import Code from "@material-ui/icons/Code";
-import Group from "@material-ui/icons/Group";
-import Email from "@material-ui/icons/Email";
-import Check from "@material-ui/icons/Check";
-import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
 import Mail from "@material-ui/icons/Mail";
 import Face from "@material-ui/icons/Face";
@@ -92,7 +73,7 @@ function VNav_Header() {
 												</List>
 												<List className={classes.list + " " + classes.mlAuto}>
 														<ListItem className={classes.listItem}>
-																<Link to="/components">
+																<Link to="/">
 																		<Button
 																				className={classes.navLink + " " + classes.navLinkActive}
 																				color="transparent"
@@ -102,30 +83,48 @@ function VNav_Header() {
 																</Link>
 														</ListItem>
 														<ListItem className={classes.listItem}>
-																<Button
-																		className={classes.navLink}
-																		onClick={e => e.preventDefault()}
-																		color="transparent"
-																>
-																		<Info/> Giới thiệu
-																</Button>
+																<CustomDropdown
+																		buttonIcon={Assignment}
+																		buttonText="Thông tin tuyển sinh"
+																		buttonProps={{
+																				className: classes.navLink,
+																				color: "transparent"
+																		}}
+																		dropdownList={[
+																				<Link to="thong-tin-cac-nganh">
+																						<Button
+																								color="transparent">
+																								<AccountCircle/> Thông tin các ngành
+																						</Button>
+																				</Link>,
+																				<Link to="thong-tin-tuyen-sinh">
+																						<Button
+																								color="transparent">
+																								<AccountCircle/> Thông báo tuyển sinh
+																						</Button>
+																				</Link>,
+																		]}
+																/>
 														</ListItem>
 														<ListItem className={classes.listItem}>
-																<Button
-																		href="#pablo"
-																		className={classes.navLink}
-																		onClick={e => e.preventDefault()}
-																		color="transparent"
-																>
-																		<Assignment/> Tư vấn tuyển sinh
-																</Button>
-														</ListItem>
-														<ListItem className={classes.listItem}>
-																<Button className={classes.navLink}
+																<Link to="tu-van-tuyen-sinh">
+																		<Button
+																				className={classes.navLink}
 																				color="transparent"
-																				onClick={() => setLoginModal(true)}>
-																		<AccountCircle/> Thông tin tuyển sinh
-																</Button>
+																		>
+																				<Assignment/> Tư vấn tuyển sinh
+																		</Button>
+																</Link>
+														</ListItem>
+														<ListItem className={classes.listItem}>
+																<Link to="gioi-thieu">
+																		<Button
+																				className={classes.navLink}
+																				color="transparent"
+																		>
+																				<Info/> Giới thiệu
+																		</Button>
+																</Link>
 														</ListItem>
 												</List>
 										</>
