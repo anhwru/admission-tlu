@@ -30,6 +30,7 @@ import Button from "components/CustomButtons/Button.js";
 
 
 import enrollment from "../../../api/enrollment.json";
+import province from "../../../api/province.json";
 
 const useStyles = makeStyles(styles);
 const useFStyles = makeStyles(formstyles);
@@ -45,12 +46,15 @@ const useStyles1 = makeStyles((theme) => ({
 
 
 export default function Admis_Form(props) {
-	const [selectedDate, handleDateChange] = useState(new Date());
-	const [selectedDate2, handleDateChange2] = useState(new Date());
+	// const [selectedDate, handleDateChange] = useState(new Date());
+	// const [selectedDate2, handleDateChange2] = useState(new Date());
 	const [simpleSelect, setSimpleSelect] = useState("");
 
 	const [chonnganh, setchonnganh] = React.useState("");
 	const [chontohop, setchontohop] = React.useState("");
+
+	const [state, setState] = React.useState(null);
+
 
 	const handchonnganh = event => {
 		setchonnganh(event.target.value);
@@ -58,14 +62,13 @@ export default function Admis_Form(props) {
 	const handtohop = event => {
 		setchontohop(event.target.value);
 	};
-	
+
 	const handleSimple = event => {
 		setSimpleSelect(event.target.value);
 	};
 	const classes = useStyles();
 	const classesform = useFStyles();
 	const classes1 = useStyles1();
-	const [state, setState] = useState();
 
 	const [data, setData] = useState(enrollment);
 
@@ -84,30 +87,56 @@ export default function Admis_Form(props) {
 	// 	}
 	// 	fetchData();
 	// }, []);
-	// console.log(data);
 
 	const findDistrict = async (id) => {
 		const requestUrl = `/api/city/${id}/district`;
 		const response = await fetch(requestUrl);
 		const responseJSON = await response.json();
-		return responseJSON;
+		setName(responseJSON);
 	}
 
-	const handleChange = async (event, newValue) => {
-		console.log(newValue);
-		const requestUrl = `/api/city`;
-		const response = await fetch(requestUrl);
-		const responseJSON = await response.json();
-		let province = await responseJSON.LtsItem.filter((value, key) => {
+	const handleChange = (event, newValue) => {
+		setState(prevState => ({
+			...prevState,
+			province: newValue.name
+		}))
+		let provinces = province.LtsItem.filter((value, key) => {
 			return value.Title == newValue.name;
 		})
-
-		const districtList = await findDistrict(province[0].ID);
-		console.log(districtList);
-
-		await setName(districtList);
-
+		findDistrict(provinces[0].ID);
 	};
+
+	const handleChangeDateOfBirth = (date) => {
+		const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date)
+		const mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(date)
+		const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date)
+		setState(prevState => ({
+			...prevState,
+			dateOfBirth: `${da}-${mo}-${ye}`
+		}))
+	};
+
+	const handleDateChangeDateForCMND = (date) => {
+		const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date)
+		const mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(date)
+		const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date)
+		setState(prevState => ({
+			...prevState,
+			dateForCMND: `${da}-${mo}-${ye}`
+		}))
+	};
+
+	const handleChange2 = e => {
+		const { name, value } = e.target
+		console.log(name);
+		console.log(value);
+
+		setState(prevState => ({
+			...prevState,
+			[name]: value
+		}))
+	}
+	console.log(state);
 
 	return (
 		<>
@@ -127,14 +156,14 @@ export default function Admis_Form(props) {
 				</GridContainer>
 				<GridContainer>
 					<GridItem sm={9} xs={9} lg={9} className="mg-10">
-						<TextField id="outlined-basic" label="Họ tên thí sinh" variant="outlined" required={true}
+						<TextField id="outlined-basic" name="fullNameStudent" onChange={handleChange2} label="Họ tên thí sinh" variant="outlined" required={true}
 						/>
 					</GridItem>
 					{/*Select*/}
 					<GridItem xs={3} lg={3} md={3} className="mg-10">
 						<FormControl variant="outlined" fullWidth
 							className={classes1.formControl + " " + "outline-form sex-form"}>
-							<InputLabel htmlFor="outlined-age-native-simple">Giới tính</InputLabel>
+							<InputLabel id="simple-select-label" htmlFor="outlined-age-native-simple">Giới tính</InputLabel>
 							<Select
 								MenuProps={{
 									className: classesform.selectMenu
@@ -142,11 +171,11 @@ export default function Admis_Form(props) {
 								classes={{
 									select: classesform.select
 								}}
-								value={simpleSelect}
-								onChange={handleSimple}
+								onChange={handleChange2}
+								labelId="simple-select-label"
 								inputProps={{
-									name: "simpleSelect",
-									id: "simple-select"
+									name: "sex",
+									id: "simple-select",
 								}}
 							>
 								<MenuItem
@@ -171,42 +200,41 @@ export default function Admis_Form(props) {
 						</FormControl>
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
-						<Fragment>
+						<Fragment name="dateOfBirth">
 							<DatePicker
 								label="Ngày/Tháng/Năm sinh"
 								inputVariant="outlined"
-								value={selectedDate}
-								onChange={handleDateChange}
+								onChange={handleChangeDateOfBirth}
 								format="dd/MM/yyyy"
 							/>
 						</Fragment>
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
-						<TextField id="place-birth" label="Nơi sinh" variant="outlined" required={true} />
+						<TextField id="place-birth" name="placeOfBirth" onChange={handleChange2} label="Nơi sinh" variant="outlined" required={true} />
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
-						<TextField id="nation" label="Dân tộc" variant="outlined" required={true} />
+						<TextField id="nation" label="Dân tộc" variant="outlined" name="nation" onChange={handleChange2} required={true} />
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
-						<TextField label="Số CMND / Căn Cước Công Dân" variant="outlined" required={true} />
+						<TextField label="Số CMND / Căn Cước Công Dân" name="numberCMND" onChange={handleChange2} variant="outlined" required={true} />
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Fragment>
 							<DatePicker
 								label="Ngày cấp"
 								inputVariant="outlined"
-								value={selectedDate2}
-								onChange={handleDateChange2}
+								// value={selectedDate2}
+								onChange={handleDateChangeDateForCMND}
 								format="dd/MM/yyyy"
 							/>
 						</Fragment>
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
-						<TextField label="Nơi Cấp" variant="outlined" required={true} />
+						<TextField label="Nơi Cấp" name="locationForCMDN" onChange={handleChange2} variant="outlined" required={true} />
 					</GridItem>
 					<VLine />
 					<GridItem sm={12} xs={12} lg={12} className="mg-10">
-						<TextField label="Hộ khẩu thường trú" variant="outlined" required={true} />
+						<TextField label="Hộ khẩu thường trú" name="location" onChange={handleChange2} variant="outlined" required={true} />
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Autocomplete
@@ -216,7 +244,7 @@ export default function Admis_Form(props) {
 							style={{ width: '300', }}
 							renderInput={(params) => <TextField {...params} value={params.id} label="Mã Tỉnh" variant="outlined" />}
 							onChange={handleChange}
-						// renderOption={(option) => <div style={{ color: "red" }}>{option.name}-{option.code}</div>}
+							renderOption={(option) => `${option.code}- ${option.name}`}
 						/>
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
@@ -226,11 +254,11 @@ export default function Admis_Form(props) {
 							getOptionLabel={(option) => option.Title}
 							style={{ width: '300', }}
 							disabled={name === null}
-							renderInput={(params) => <TextField {...params} label="Mã Huyện" variant="outlined" />}
+							renderInput={(params) => <TextField {...params} onChange={handleChange2} name="district" label="Mã Huyện" variant="outlined" />}
 						/>
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
-						<TextField label="Mã xã (Nếu có)" variant="outlined" />
+					<TextField label="Mã xã (Nếu có)" name="Town" onChange={handleChange2} variant="outlined" />
 					</GridItem>
 					<VLine2 />
 					<GridItem xs={12} lg={12} md={12} className="class-mate">
@@ -244,6 +272,7 @@ export default function Admis_Form(props) {
 							style={{ width: '300', }}
 							onChange={handleChange}
 							renderInput={(params) => <TextField {...params} label="Tên trường THPT" variant="outlined" />}
+							renderOption={(option) => <div> <div> {option.code}- {option.name} </div> <div style={{ 'font-size': '13px' }}> {option.address}</div> </div>}
 						/>
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
@@ -621,5 +650,5 @@ export default function Admis_Form(props) {
 		</>
 	);
 
-	
+
 }
