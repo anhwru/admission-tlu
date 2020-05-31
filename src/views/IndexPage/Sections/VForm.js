@@ -229,7 +229,10 @@ export default function Admis_Form(props) {
 	const [stateImages, setStateImages] = React.useState();
 
 	const changeImage = (event) => {
-		setStateImages(event);
+		console.log(event.target.files);
+		setStateImages(event.target.files);
+		
+		// setStateImages(event);
 	}
 
 	const Submit = () => {
@@ -243,9 +246,11 @@ export default function Admis_Form(props) {
 
 		const formData = new FormData();
 		formData.append("body", JSON.stringify(admissionsRecords));
-		for (const key of Object.keys(stateImages)) {
-			formData.append('photos', stateImages[key].file);
-        }
+		formData.append("photos", stateImages);
+
+		// for (const key of Object.keys(stateImages)) {
+		// 	formData.append('photos', stateImages[key].file);
+        // }
 		console.log(formData);
 		
 		const config = {     
@@ -686,11 +691,12 @@ export default function Admis_Form(props) {
 						/>
 					</GridItem>
 					<GridItem xs={12} sm={12} md={12}>
-						<RUG
+						{/* <RUG
 							onChange={changeImage}
 							accept={['jpg', 'jpeg', 'png']}
 							source={response => response.source}
-						/>
+						/> */}
+						<input type="file" id="myfile" onChange={changeImage} name="myfile"></input>
 					</GridItem>
 					<GridItem md={12} lg={12} xs={12} className="submit">
 						<Button color="success" onClick={Submit} round>
