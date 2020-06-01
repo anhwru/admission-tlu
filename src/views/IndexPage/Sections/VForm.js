@@ -28,6 +28,8 @@ import 'react-upload-gallery/dist/style.css'
 import Accordion from "components/Accordion/Accordion.js";
 import Button from "components/CustomButtons/Button.js";
 
+
+import { storage } from "../../../firebase/config.js";
 import axios from "axios";
 import enrollment from "../../../api/enrollment.json";
 import province from "../../../api/province.json";
@@ -227,42 +229,156 @@ export default function Admis_Form(props) {
 	})
 
 	const [stateImages, setStateImages] = React.useState();
+	const [stateNumImages, setStateNumImages] = React.useState();
+	const [progress, setProgress] = useState(0);
+	const [stateUrl, setStateUrl] = React.useState([]);
+	const [stateImageName, setStateImageName] = React.useState([]);
 
 	const changeImage = (event) => {
-		console.log(event.target.files);
-		setStateImages(event.target.files);
-		
-		// setStateImages(event);
+		setStateImages(event);
+		setStateNumImages(event.length)
 	}
 
+	const handleUpload = () => {
+		return new Promise((resolve, reject) => {
+			let dem = 0;
+			let arrayUrl = [];
+			stateImages.forEach((file) => {
+				const imageFileName = `${Math.round(Math.random() * 1000000000000)}`;
+				storage.ref(`images/${imageFileName}`).put(file.file)
+					.on(
+						"state_changed",
+						snapshot => {
+							const progress = Math.round(
+								(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+							);
+							setProgress(progress);
+						},
+						error => {
+							console.log(error);
+						},
+						() => {
+							storage
+								.ref("images")
+								.child(imageFileName)
+								.getDownloadURL()
+								.then( (url) => {
+									// setStateUrl(prevState => [...prevState, url]);
+									arrayUrl.push(url);
+									dem = dem + 1;
+									if (dem === stateNumImages) {
+										resolve(arrayUrl);
+									}
+								});
+						}
+					)
+			})
+		})
+	};
+
+	const Click = () => {
+		console.log(stateUrl);
+	}
 	const Submit = () => {
-		const admissionsRecords = {
-			infoStudent: stateInfoStudent,
-			infoRecords: stateInfoRecords
-		}
-		admissionsRecords.infoStudent.dateOfBirth = formatDate(admissionsRecords.infoStudent.dateOfBirth);
-		admissionsRecords.infoStudent.dateForCMND = formatDate(admissionsRecords.infoStudent.dateForCMND);
-		console.log(admissionsRecords);
+		handleUpload().then( async (res) => {
+			console.log(res);
+			const linkImage = {...[res]};
+			console.log(linkImage);
+			
+			const admissionsRecords = {
+				infoStudent: stateInfoStudent,
+				infoRecords: stateInfoRecords,
+				linkImage: ""
+			}
+			admissionsRecords.infoStudent.dateOfBirth = formatDate(admissionsRecords.infoStudent.dateOfBirth);
+			admissionsRecords.infoStudent.dateForCMND = formatDate(admissionsRecords.infoStudent.dateForCMND);
+			admissionsRecords.linkImage = res;
+			const requestOptions = {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ admissionsRecords: admissionsRecords })
+			};
+			const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
+			const data = await response.json();
+			console.log(data);
+		})
+		// const admissionsRecords = {
+		// 	infoStudent: stateInfoStudent,
+		// 	infoRecords: stateInfoRecords,
+		// 	linkImage: ""
+		// }
+		// admissionsRecords.infoStudent.dateOfBirth = formatDate(admissionsRecords.infoStudent.dateOfBirth);
+		// admissionsRecords.infoStudent.dateForCMND = formatDate(admissionsRecords.infoStudent.dateForCMND);
+		// console.log(admissionsRecords);
 
-		const formData = new FormData();
-		formData.append("body", JSON.stringify(admissionsRecords));
-		formData.append("photos", stateImages);
+		// admissionsRecords.linkImage = stateUrl;
+		// const requestOptions = {
+		// 	method: 'POST',
+		// 	headers: { 'Content-Type': 'application/json' },
+		// 	body: JSON.stringify({ admissionsRecords: admissionsRecords })
+		// };
+		// const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
+		// console.log(response);
 
+		// const data = await response.json();
+		// console.log(data);
+
+		// stateImages.forEach((file) => {
+		// 	const imageFileName = `${Math.round(Math.random() * 1000000000000)}`;
+		// 	storage.ref(`images/${imageFileName}`).put(file.file)
+		// 		.on(
+		// 			"state_changed",
+		// 			snapshot => {
+		// 				const progress = Math.round(
+		// 					(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+		// 				);
+		// 				setProgress(progress);
+		// 			},
+		// 			error => {
+		// 				console.log(error);
+		// 			},
+		// 			() => {
+		// 				storage
+		// 					.ref("images")
+		// 					.child(imageFileName)
+		// 					.getDownloadURL()
+		// 					.then((url) => {
+		// 						setStateUrl(prevState => [...prevState, url]);
+		// 					})
+		// 			}
+		// 		)
+		// })
+
+		// admissionsRecords.linkImage = stateUrl;
+		// const requestOptions = {
+		// 	method: 'POST',
+		// 	headers: { 'Content-Type': 'application/json' },
+		// 	body: JSON.stringify({ admissionsRecords: admissionsRecords})
+		// };
+
+		// const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
+		// const data = await response.json();
+		// console.log(data);
+
+		// const formData = new FormData();
+		// formData.append("body", JSON.stringify(admissionsRecords));
+		// formData.append("photos", stateImages[0].file);
 		// for (const key of Object.keys(stateImages)) {
 		// 	formData.append('photos', stateImages[key].file);
-        // }
-		console.log(formData);
-		
-		const config = {     
-			headers: { 'content-type': 'multipart/form-data' }
-		}
-		axios.post('http://127.0.0.1:8000/api/luuhoso', formData, config)
-			.then(response => {
-				console.log(response);
-			})
-			.catch(error => {
-				console.log(error);
-			});
+		// }
+		// handleUpload();
+		// console.log(formData);
+
+		// const config = {     
+		// 	headers: { 'content-type': 'multipart/form-data' }
+		// }
+		// axios.post('http://127.0.0.1:8000/api/luuhoso', formData, config)
+		// 	.then(response => {
+		// 		console.log(response);
+		// 	})
+		// 	.catch(error => {
+		// 		console.log(error);
+		// 	});
 	}
 
 	return (
@@ -691,13 +807,13 @@ export default function Admis_Form(props) {
 						/>
 					</GridItem>
 					<GridItem xs={12} sm={12} md={12}>
-						{/* <RUG
+						<RUG
 							onChange={changeImage}
 							accept={['jpg', 'jpeg', 'png']}
 							source={response => response.source}
-						/> */}
-						<input type="file" id="myfile" onChange={changeImage} name="myfile"></input>
+						/>
 					</GridItem>
+					<button onClick={Click}>Click here</button>
 					<GridItem md={12} lg={12} xs={12} className="submit">
 						<Button color="success" onClick={Submit} round>
 							<Navigation className={classes.icons} /> Đăng ký
