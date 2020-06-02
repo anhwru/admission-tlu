@@ -3,155 +3,135 @@ import React from "react";
 // @material-ui/core components
 import {makeStyles} from "@material-ui/core/styles";
 // @material-ui icons
-
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-
-
 import {
 		Link
 } from "react-router-dom";
-
 // style for page
-import styles from "assets/jss/material-kit-pro-react/views/componentsSections/preFooter.js";
-import stylescard from "assets/jss/material-kit-pro-react/views/componentsSections/sectionCards.js";
-
+import blogsStyle from "assets/jss/material-kit-pro-react/views/sectionsSections/blogsStyle.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
-import Success from "../../../components/Typography/Success";
-import Schedule from "@material-ui/core/SvgIcon/SvgIcon";
+import Info from "components/Typography/Info.js";
+import Danger from "components/Typography/Danger.js";
+import TrendingUp from "@material-ui/icons/TrendingUp";
 
-
-const useStyles = makeStyles(styles);
-const useStyleCard = makeStyles(stylescard);
+const useStyles = makeStyles(blogsStyle);
 
 export default function News() {
-		
 		const classes = useStyles();
-		const classescard = useStyleCard();
 		return (
-				<div className={classes.container} id="form-data">
-						<GridContainer>
-								<GridItem xs={12} sm={4} md={4} lg={4}>
-										<Link to="/cong-nghe-thong-tin">
-												<Card blog>
-														<CardHeader image>
-																<img
-																		src="https://media-a.laodong.vn/Storage/NewsPortal/2018/11/11/640774/Sv-Thuy-Loi.jpg"
-																		alt="..."/>
-																<div
-																		className={classescard.coloredShadow}
-																		style={{
-																				backgroundImage: `url(https://media-a.laodong.vn/Storage/NewsPortal/2018/11/11/640774/Sv-Thuy-Loi.jpg)`,
-																				opacity: "1"
-																		}}
-																/>
-														</CardHeader>
-														<CardBody>
-																<Success>
-																		<h6 className={classescard.cardCategory}>Legal</h6>
-																</Success>
-																<h4 className={classescard.cardTitle} style={{fontFamily: "serif"}}>
-																		Những lưu ý khi nộp hồ sơ xét tuyển trực tuyến
-																</h4>
-																<p className={classescard.cardDescription}>
-																		Don{"'"}t be scared of the truth because we need to
-																		restart the human foundation in truth And I love you
-																		like Kanye loves Kanye I love Rick Owens’ bed design but
-																		the back is...
-																</p>
-														</CardBody>
-														<CardFooter>
-																
-																<div className={classescard.stats + " " + classescard.mlAuto}>
-																		<Schedule/> 25/06/2020
-																</div>
-														</CardFooter>
+				<div className={classes.blog} style={{padding: '0px'}}>
+						<div className={classes.container}>
+								<GridContainer>
+										<GridItem
+												xs={12}
+												sm={10}
+												md={10}
+												className={classes.mlAuto + " " + classes.mrAuto}
+										>
+												<Card plain blog className={classes.card}>
+														<GridContainer>
+																<GridItem xs={12} sm={5} md={5}>
+																		<CardHeader image plain>
+																				<Link to="/">
+																						<img
+																								src="https://media.kenhtuyensinh.vn/images/cms/2019/02/dai-hoc-thuy-loi.jpg"
+																								alt="..."/>
+																				</Link>
+																				<div
+																						className={classes.coloredShadow}
+																						style={{
+																								backgroundImage: `url(https://media.kenhtuyensinh.vn/images/cms/2019/02/dai-hoc-thuy-loi.jpg)`,
+																								opacity: "1"
+																						}}
+																				/>
+																		</CardHeader>
+																</GridItem>
+																<GridItem xs={12} sm={7} md={7}>
+																		<Info>
+																				<h6 className={classes.cardCategory}>ENTERPRISE</h6>
+																		</Info>
+																		<h3 className={classes.cardTitle}>
+																				<Link to="/">
+																						Autodesk looks to future of 3D printing with Project
+																						Escher
+																				</Link>
+																		</h3>
+																		<p className={classes.description1}>
+																				Like so many organizations these days, Autodesk is a
+																				company in transition. It was until recently a traditional
+																				boxed software company selling licenses. Today, it’s
+																				moving to a subscription model. Yet its own business model
+																				disruption is only part of the story — and…
+																				<Link to="/">
+																						{" "}
+																						Read More{" "}
+																				</Link>
+																		</p>
+																		<p className={classes.author}>
+																				by{" "}
+																				<b>Mike Butcher</b>
+																				{" "}
+																				, 2 days ago
+																		</p>
+																</GridItem>
+														</GridContainer>
 												</Card>
-										</Link>
-								</GridItem>
-								<GridItem xs={12} sm={4} md={4} lg={4}>
-										<Link to="/cong-nghe-thong-tin">
-												<Card blog>
-														<CardHeader image>
-																<img src="https://tlus.edu.vn/wp-content/uploads/2019/08/quang-ba-tuyen-sinh-2019.png"
-																		 alt="..."/>
-																<div
-																		className={classescard.coloredShadow}
-																		style={{
-																				backgroundImage: `url(https://tlus.edu.vn/wp-content/uploads/2019/08/quang-ba-tuyen-sinh-2019.png)`,
-																				opacity: "1"
-																		}}
-																/>
-														</CardHeader>
-														<CardBody>
-																<Success>
-																		<h6 className={classescard.cardCategory}>Legal</h6>
-																</Success>
-																<h4 className={classescard.cardTitle} style={{fontFamily: "serif"}}>
-																		Chính thức nhận hồ sơ đăng ký xét tuyển từ 30/08/2020
-																</h4>
-																<p className={classescard.cardDescription}>
-																		Don{"'"}t be scared of the truth because we need to
-																		restart the human foundation in truth And I love you
-																		like Kanye loves Kanye I love Rick Owens’ bed design but
-																		the back is...
-																</p>
-														</CardBody>
-														<CardFooter>
-																
-																<div className={classescard.stats + " " + classescard.mlAuto}>
-																		<Schedule/> 25/08/2020
-																</div>
-														</CardFooter>
+												<Card plain blog className={classes.card}>
+														<GridContainer>
+																<GridItem xs={12} sm={7} md={7}>
+																		<Danger>
+																				<h6 className={classes.cardCategory}>
+																						<TrendingUp/>
+																						TRENDING
+																				</h6>
+																		</Danger>
+																		<h3 className={classes.cardTitle}>
+																				<Link to="/">
+																						6 insights into the French Fashion landscape
+																				</Link>
+																		</h3>
+																		<p className={classes.description1}>
+																				Like so many organizations these days, Autodesk is a
+																				company in transition. It was until recently a traditional
+																				boxed software company selling licenses. Today, it’s
+																				moving to a subscription model. Yet its own business model
+																				disruption is only part of the story — and…
+																				<Link to="/">
+																						{" "}
+																						Read More{" "}
+																				</Link>
+																		</p>
+																		<p className={classes.author}>
+																				by{" "}
+																				<b>Mike Butcher</b>
+																				{" "}
+																				, 2 days ago
+																		</p>
+																</GridItem>
+																<GridItem xs={12} sm={5} md={5}>
+																		<CardHeader image plain>
+																				<Link to="/">
+																						<img
+																								src="https://tuyensinhvietnam.vn/wp-content/uploads/2020/03/phuong-an-tuyen-sinh-dai-hoc-thuy-loi-co-so-2-tphcm-nam-2020.jpg"
+																								alt="..."/>
+																				</Link>
+																				<div
+																						className={classes.coloredShadow}
+																						style={{
+																								backgroundImage: `url(https://tuyensinhvietnam.vn/wp-content/uploads/2020/03/phuong-an-tuyen-sinh-dai-hoc-thuy-loi-co-so-2-tphcm-nam-2020.jpg)`,
+																								opacity: "1"
+																						}}
+																				/>
+																		</CardHeader>
+																</GridItem>
+														</GridContainer>
 												</Card>
-										</Link>
-								</GridItem>
-								<GridItem xs={12} sm={4} md={4} lg={4}>
-										<Link to="/cong-nghe-thong-tin">
-												<Card blog>
-														<CardHeader image>
-																<a href="#pablo" onClick={e => e.preventDefault()}>
-																		<img
-																				src="https://media-a.laodong.vn/Storage/NewsPortal/2018/11/11/640774/Sv-Thuy-Loi.jpg"
-																				alt="..."/>
-																</a>
-																<div
-																		className={classescard.coloredShadow}
-																		style={{
-																				backgroundImage: `url(https://media-a.laodong.vn/Storage/NewsPortal/2018/11/11/640774/Sv-Thuy-Loi.jpg)`,
-																				opacity: "1"
-																		}}
-																/>
-														</CardHeader>
-														<CardBody>
-																<Success>
-																		<h6 className={classescard.cardCategory}>Legal</h6>
-																</Success>
-																<h4 className={classescard.cardTitle} style={{fontFamily: "serif"}}>
-																		Những lưu ý khi nộp hồ sơ xét tuyển trực tuyến
-																</h4>
-																<p className={classescard.cardDescription}>
-																		Don{"'"}t be scared of the truth because we need to
-																		restart the human foundation in truth And I love you
-																		like Kanye loves Kanye I love Rick Owens’ bed design but
-																		the back is...
-																</p>
-														</CardBody>
-														<CardFooter>
-																
-																<div className={classescard.stats + " " + classescard.mlAuto}>
-																		<Schedule/> 25/06/2020
-																</div>
-														</CardFooter>
-												</Card>
-										</Link>
-								</GridItem>
-						
-						</GridContainer>
+										</GridItem>
+								</GridContainer>
+						</div>
 				</div>
 		);
 }
