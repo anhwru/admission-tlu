@@ -17,3 +17,24 @@ const firebaseConfig = {
   const storage = firebase.storage();
   
   export { storage, firebase as default };
+
+
+  // const formData = new FormData();
+		// formData.append("body", JSON.stringify(admissionsRecords));
+		// formData.append("photos", stateImages[0].file);
+		// for (const key of Object.keys(stateImages)) {
+		// 	formData.append('photos', stateImages[key].file);
+		// }
+		// handleUpload();
+		// console.log(formData);
+
+		// const config = {     
+		// 	headers: { 'content-type': 'multipart/form-data' }
+		// }
+		// axios.post('http://127.0.0.1:8000/api/luuhoso', formData, config)
+		// 	.then(response => {
+		// 		console.log(response);
+		// 	})
+		// 	.catch(error => {
+		// 		console.log(error);
+		// 	});
