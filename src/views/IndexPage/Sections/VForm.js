@@ -274,30 +274,24 @@ export default function Admis_Form(props) {
 		})
 	};
 
-	const Submit = () => {
-		const admissionsRecords = {
-			infoStudent: stateInfoStudent,
-			infoRecords: stateInfoRecords,
-			linkImage: ""
-		}
-		console.log(admissionsRecords);
-		
-		// handleUpload().then( async (res) => {
-		// 	const admissionsRecords = {
-		// 		infoStudent: stateInfoStudent,
-		// 		infoRecords: stateInfoRecords,
-		// 		linkImage: ""
-		// 	}
-		// 	admissionsRecords.linkImage = res;
-		// 	const requestOptions = {
-		// 		method: 'POST',
-		// 		headers: { 'Content-Type': 'application/json' },
-		// 		body: JSON.stringify({ admissionsRecords: admissionsRecords })
-		// 	};
-		// 	const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
-		// 	const data = await response.json();
-		// 	console.log(data);
-		// })
+	const Submit = () => {		
+		handleUpload().then( async (res) => {
+			const admissionsRecords = {
+				infoStudent: stateInfoStudent,
+				infoRecords: stateInfoRecords,
+				linkImage: ""
+			}
+			admissionsRecords.linkImage = res;
+			console.log(admissionsRecords);
+			const requestOptions = {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ admissionsRecords: admissionsRecords })
+			};
+			const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
+			const data = await response.json();
+			console.log(data);
+		})
 	}
 
 	return (
