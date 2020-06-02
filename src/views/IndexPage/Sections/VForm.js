@@ -162,7 +162,7 @@ export default function Admis_Form(props) {
 
 	useEffect(() => {
 		async function fetchData() {
-			const requestUrl = 'http://127.0.0.1:8000/api/nganh';
+			const requestUrl = 'http://ttts.local/public/api/nganh';
 			const response = await fetch(requestUrl);
 			const responseJSON = await response.json();
 
@@ -204,7 +204,7 @@ export default function Admis_Form(props) {
 		setStateInfoRecords(prevState => ({
 			...prevState,
 			majors: event.target.value,
-			idMajors: majors[0].ma_xet_tuyen
+			idMajors: majors[0].id
 		}));
 	}
 
@@ -298,7 +298,7 @@ export default function Admis_Form(props) {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ admissionsRecords: admissionsRecords })
 			};
-			const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
+			const response = await fetch('http://ttts.local/public/api/luuhoso', requestOptions);
 			const data = await response.json();
 			console.log(data);
 		})
