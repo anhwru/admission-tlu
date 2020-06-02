@@ -91,9 +91,10 @@ export default function Admis_Form(props) {
 	}
 
 	const handleChange = (event, newValue) => {
+		const data = `${newValue.code}|${newValue.name}`
 		setStateInfoStudent(prevState => ({
 			...prevState,
-			province: newValue.name
+			province: data
 		}))
 		let provinces = province.LtsItem.filter((value, key) => {
 			return value.Title == newValue.name;
@@ -204,7 +205,7 @@ export default function Admis_Form(props) {
 		setStateInfoRecords(prevState => ({
 			...prevState,
 			majors: event.target.value,
-			idMajors: majors[0].ma_xet_tuyen
+			idMajors: majors[0].id
 		}));
 	}
 
@@ -274,22 +275,29 @@ export default function Admis_Form(props) {
 	};
 
 	const Submit = () => {
-		handleUpload().then( async (res) => {
-			const admissionsRecords = {
-				infoStudent: stateInfoStudent,
-				infoRecords: stateInfoRecords,
-				linkImage: ""
-			}
-			admissionsRecords.linkImage = res;
-			const requestOptions = {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ admissionsRecords: admissionsRecords })
-			};
-			const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
-			const data = await response.json();
-			console.log(data);
-		})
+		const admissionsRecords = {
+			infoStudent: stateInfoStudent,
+			infoRecords: stateInfoRecords,
+			linkImage: ""
+		}
+		console.log(admissionsRecords);
+		
+		// handleUpload().then( async (res) => {
+		// 	const admissionsRecords = {
+		// 		infoStudent: stateInfoStudent,
+		// 		infoRecords: stateInfoRecords,
+		// 		linkImage: ""
+		// 	}
+		// 	admissionsRecords.linkImage = res;
+		// 	const requestOptions = {
+		// 		method: 'POST',
+		// 		headers: { 'Content-Type': 'application/json' },
+		// 		body: JSON.stringify({ admissionsRecords: admissionsRecords })
+		// 	};
+		// 	const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
+		// 	const data = await response.json();
+		// 	console.log(data);
+		// })
 	}
 
 	return (
@@ -337,7 +345,7 @@ export default function Admis_Form(props) {
 										root: classesform.selectMenuItem,
 										selected: classesform.selectMenuItemSelected
 									}}
-									value="nam"
+									value="0"
 								>
 									Nam
 														</MenuItem>
@@ -346,7 +354,7 @@ export default function Admis_Form(props) {
 										root: classesform.selectMenuItem,
 										selected: classesform.selectMenuItemSelected
 									}}
-									value="nữ"
+									value="1"
 								>
 									Nữ
 														</MenuItem>
@@ -621,7 +629,7 @@ export default function Admis_Form(props) {
 															}}
 															onChange={handleSelectIdMajorAndToHop}
 															inputProps={{
-																name: "simpleSelect",
+																name: "Majors",
 																id: "nganh"
 															}}
 														>
