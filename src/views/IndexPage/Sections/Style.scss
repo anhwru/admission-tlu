@@ -156,7 +156,17 @@ div#mui-component-select-simpleSelect {
     }
   }
 }
+.flex-button{
 
+}
+.mw-12{
+  max-width: 12% !important;
+}
+@media only screen and (max-width: 767px){
+  .mw-12{
+    max-width: inherit !important;
+  }
+}
 // RUG
 .rug-handle-drop-text {
 
