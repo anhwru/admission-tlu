@@ -60,17 +60,20 @@ export default function Admis_Form(props) {
 	let class10 = {
 		location: "",
 		idProvince: "",
-		idSchool: ""
+		idSchool: "",
+		nameSchool: ""
 	};
 	let class11 = {
 		location: "",
 		idProvince: "",
-		idSchool: ""
+		idSchool: "",
+		nameSchool: ""
 	};
 	let class12 = {
 		location: "",
 		idProvince: "",
-		idSchool: ""
+		idSchool: "",
+		nameSchool: ""
 	};
 
 	const date = new Date();
@@ -135,9 +138,12 @@ export default function Admis_Form(props) {
 	};
 
 	const handleChangeForClass10 = (event, newValue) => {
+		console.log(newValue);
+		
 		class10.location = newValue.address;
 		class10.idProvince = newValue.provinceCode;
 		class10.idSchool = newValue.code;
+		class10.nameSchool = newValue.name;
 		setStateInfoStudent(prevState => ({
 			...prevState,
 			class10: class10
@@ -148,6 +154,7 @@ export default function Admis_Form(props) {
 		class11.location = newValue.address;
 		class11.idProvince = newValue.provinceCode;
 		class11.idSchool = newValue.code;
+		class11.nameSchool = newValue.name;
 		setStateInfoStudent(prevState => ({
 			...prevState,
 			class11: class11
@@ -158,6 +165,7 @@ export default function Admis_Form(props) {
 		class12.location = newValue.address;
 		class12.idProvince = newValue.provinceCode;
 		class12.idSchool = newValue.code;
+		class12.nameSchool = newValue.name;
 		setStateInfoStudent(prevState => ({
 			...prevState,
 			class12: class12
