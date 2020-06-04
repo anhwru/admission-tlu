@@ -252,14 +252,14 @@ export default function Admis_Form(props) {
 				return value.ma_to_hop === v.id;
 			})
 		})
-		
+
 		const selectToHop = listToHop.map((value, key) => {
 			return (<MenuItem
 				classes={{
 					root: classesform.selectMenuItem,
 					selected: classesform.selectMenuItemSelected
 				}}
-				value={value[0].ten}
+				value={value[0].id}
 			>
 				{value[0].ten}
 			</MenuItem>)
