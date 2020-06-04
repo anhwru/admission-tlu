@@ -206,6 +206,8 @@ export default function Admis_Form(props) {
 
 	const objNguyenVong = {
 		idMajors: "",
+		nameMajors: "",
+		ma_xet_tuyen: "",
 		tohop: "",
 		lop10_mon1: "",
 		lop10_mon2: "",
@@ -269,6 +271,8 @@ export default function Admis_Form(props) {
 
 		const listNV = stateNguyenVong;
 		listNV[id].idMajors = majors[0].id;
+		listNV[id].nameMajors = majors[0].ten;
+		listNV[id].ma_xet_tuyen = majors[0].ma_xet_tuyen;
 		setStateNguyenVong(listNV);
 	}
 
@@ -316,7 +320,7 @@ export default function Admis_Form(props) {
 										</FormControl>
 									</GridItem>
 									<GridItem sm={4} xs={4} lg={4} className="mg-10">
-										<TextField id="outlined-basic" value={stateNguyenVong[key].idMajors}
+										<TextField id="outlined-basic" value={stateNguyenVong[key].ma_xet_tuyen}
 											label="Mã ngành" variant="outlined"
 											required={true} disabled={true} />
 									</GridItem>
