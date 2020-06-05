@@ -78,8 +78,11 @@ export default function Admis_Form(props) {
 
 	const date = new Date();
 	const [stateInfoStudent, setStateInfoStudent] = React.useState({
+		sex: '',
 		dateOfBirth: date,
 		dateForCMND: date,
+		doiTuongUuTien: "",
+		khuVucUuTien: "",
 		class10,
 		class11,
 		class12
@@ -237,10 +240,9 @@ export default function Admis_Form(props) {
 		const array = event.target.name.split("@");
 		const name = array[0];
 		const id = parseInt(array[1]);
-		console.log(name);
-		console.log(id);
-		const listNV = stateNguyenVong;
+		const listNV = stateNguyenVong.slice();
 		listNV[id][name] = event.target.value;
+		setStateNguyenVong(listNV);
 	}
 
 	const chonNganhChoNguyenVong = (event) => {
@@ -273,20 +275,30 @@ export default function Admis_Form(props) {
 			</MenuItem>)
 		});
 
-		const newListToHop = stateToHop;
+		const newListToHop = stateToHop.slice();
 		newListToHop[id] = selectToHop;
 		setStateToHop(newListToHop);
 
-		const listNV = stateNguyenVong;
+		const listNV = stateNguyenVong.slice();
 		listNV[id].idMajors = majors[0].id;
 		listNV[id].nameMajors = majors[0].ten;
 		listNV[id].ma_xet_tuyen = majors[0].ma_xet_tuyen;
 		setStateNguyenVong(listNV);
 	}
 
+	const deleteConponent = (data) => {
+		const listNV = stateNguyenVong.slice().filter((value, key) => {
+			return key !== data;
+		})
+
+		const listToHop = stateToHop.slice().filter((value, key) => {
+			return key !== data;
+		})
+		setStateToHop(listToHop)
+		setStateNguyenVong(listNV);
+	}
+
 	const listNguyenVong = stateToHop.map((value, key) => {
-		console.log(key);
-		console.log(stateToHop[key]);
 		return (
 			<Accordion
 				active={0}
@@ -298,7 +310,6 @@ export default function Admis_Form(props) {
 								<GridItem xs={12} lg={12} md={12} className="mg-10">
 									<TextField label="Nguyện vọng" value={`Nguyện vọng ${key + 1}`} variant="outlined" disabled="true" required={true} />
 								</GridItem>
-
 							</GridContainer>
 						,
 						content:
@@ -349,7 +360,7 @@ export default function Admis_Form(props) {
 													id: "tohop"
 												}}
 											>
-												{stateToHop}
+												{stateToHop[key]}
 											</Select>
 										</FormControl>
 									</GridItem>
@@ -430,7 +441,7 @@ export default function Admis_Form(props) {
 								</GridContainer>
 								<GridContainer>
 									<GridItem md={2} className="mw-12">
-										<Button color="danger" round><Clear /> Xóa</Button>
+										<Button color="danger" onClick={(data) => deleteConponent(key)} round><Clear /> Xóa</Button>
 									</GridItem>
 									<GridItem md={2}>
 										<Button color="info" round><KeyboardArrowUp /> Thu gọn</Button>
@@ -545,6 +556,7 @@ export default function Admis_Form(props) {
 									select: classesform.select
 								}}
 								onChange={handleChange2}
+								value={stateInfoStudent.sex}
 								labelId="simple-select-label"
 								inputProps={{
 									name: "sex",
@@ -761,6 +773,7 @@ export default function Admis_Form(props) {
 									select: classesform.select
 								}}
 								onChange={handleChange2}
+								value={stateInfoStudent.khuVucUuTien}
 								inputProps={{
 									name: "khuVucUuTien",
 									id: "simple-select"
@@ -799,6 +812,7 @@ export default function Admis_Form(props) {
 									select: classesform.select
 								}}
 								onChange={handleChange2}
+								value={stateInfoStudent.doiTuongUuTien}
 								inputProps={{
 									name: "doiTuongUuTien",
 									id: "simple-select"
