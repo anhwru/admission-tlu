@@ -30,6 +30,7 @@ import RUG from 'react-upload-gallery';
 import 'react-upload-gallery/dist/style.css'
 import Accordion from "components/Accordion/Accordion.js";
 import Button from "components/CustomButtons/Button.js";
+import LazyLoad from 'react-lazyload'
 
 
 import { storage } from "../../../firebase/config.js";
@@ -443,9 +444,6 @@ export default function Admis_Form(props) {
 									<GridItem md={2} className="mw-12">
 										<Button color="danger" onClick={(data) => deleteConponent(key)} round><Clear /> Xóa</Button>
 									</GridItem>
-									<GridItem md={2}>
-										<Button color="info" round><KeyboardArrowUp /> Thu gọn</Button>
-									</GridItem>
 								</GridContainer>
 							</div>
 					}
@@ -665,11 +663,13 @@ export default function Admis_Form(props) {
 							getOptionLabel={(option) => option.name}
 							style={{ width: '300', }}
 							onChange={handleChangeForClass10}
-							renderInput={(params) => <TextField {...params} label="Tên trường THPT"
-								variant="outlined" />}
+							renderInput={(params) =>
+									<TextField {...params} label="Tên trường THPT"
+								variant="outlined" />
+									}
 							renderOption={(option) => <div>
-								<div> {option.code}- {option.name} </div>
-								<div style={{ 'font-size': '13px' }}> {option.address}</div>
+											<div> <LazyLoad>{option.code}- {option.name}</LazyLoad> </div>
+									<div style={{ 'font-size': '13px' }}><LazyLoad> {option.address}</LazyLoad></div>
 							</div>}
 						/>
 					</GridItem>
