@@ -6,6 +6,7 @@ import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import VNav_Header from "../IndexPage/Sections/VNav_Header";
 import News from "./Sections/News";
+import VFooter from "../IndexPage/Sections/VFooter";
 
 
 function NewsPage() {
@@ -33,12 +34,19 @@ function NewsPage() {
 						window.removeEventListener("scroll", checkScroll);
 				};
 		});
+
+		const [state, setState] = React.useState(null)
+		const getData = (data) => {
+			setState(data);
+		}
+		
 		return (
 				
 				<div>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<VNav_Header/>
-								<News/>
+								<News loadPage={(data) => {getData(data)}} />
+								<VFooter/>
 						</MuiPickersUtilsProvider>
 				</div>
 		);

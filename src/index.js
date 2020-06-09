@@ -11,6 +11,9 @@ import ComponentsPage from "views/ComponentsPage/ComponentsPage.js";
 import IndexPage from "./views/IndexPage/IndexPage";
 import AdmisstionInfoPage from "./views/AdmisstionInfo/AdmissionInfoPage";
 import NewsPage from "./views/NewsPage/NewsPage";
+// import Detail from "./views/NewsPage/Sections/Detail";
+import ChildForNewsDetail from "./views/NewsPage/Sections/child";
+
 
 var hist = createBrowserHistory();
 
@@ -19,6 +22,7 @@ ReactDOM.render(
     <Switch>
       <Route path="/thong-tin-cac-nganh" component={AdmisstionInfoPage} />
       <Route path="/thong-tin-tuyen-sinh" component={NewsPage} />
+      <Route path="/detail/:slug.:id.html" children={<ChildForNewsDetail />} />
       <Route path="/components" component={ComponentsPage} />
       <Route path="/" component={IndexPage} />
     </Switch>

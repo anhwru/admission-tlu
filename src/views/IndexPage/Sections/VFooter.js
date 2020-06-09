@@ -4,9 +4,10 @@ import classNames from "classnames";
 import "./Style.scss";
 // @material-ui/core components
 import {makeStyles} from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+import Button from "components/CustomButtons/Button.js";
+import CustomInput from "components/CustomInput/CustomInput.js";
 // @material-ui/icons
+import Mail from "@material-ui/icons/Mail";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
@@ -25,175 +26,143 @@ import styles from "assets/jss/material-kit-pro-react/views/componentsSections/f
 
 const useStyles = makeStyles(styles);
 
-export default function SectionFooter() {
+export default function VFooter() {
   const classes = useStyles();
   return (
     <div id="footer" className={classes.section}>
       <div>
         <Footer
-          theme="dark"
-          content={
-            <div>
-              <div className={classes.left}>
-                <List className={classes.list}>
-                  <ListItem className={classes.inlineBlock}>
-                    <a
-                      href="https://www.creative-tim.com/"
-                      className={classes.block}
-                    >
-                      Creative Tim
-                    </a>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <a
-                      href="https://www.creative-tim.com/about-us"
-                      className={classes.block}
-                    >
-                      About us
-                    </a>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <a
-                      href="//blog.creative-tim.com/"
-                      className={classes.block}
-                    >
-                      Blog
-                    </a>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <a
-                      href="https://www.creative-tim.com/license"
-                      className={classes.block}
-                    >
-                      Licenses
-                    </a>
-                  </ListItem>
-                </List>
-              </div>
-              <div className={classes.right}>
-                Copyright &copy; {1900 + new Date().getYear()}{" "}
-                <a
-                  href="https://www.creative-tim.com"
-                  className={classes.aClasses}
+            theme="white"
+            content={
+              <div>
+                <ul className={classes.socialButtons}>
+                  <li>
+                    <Button justIcon simple href="#pablo" color="twitter">
+                      <i className="fab fa-twitter" />
+                    </Button>
+                  </li>
+                  <li>
+                    <Button justIcon simple href="#pablo" color="facebook">
+                      <i className="fab fa-facebook-square" />
+                    </Button>
+                  </li>
+                  <li>
+                    <Button justIcon simple href="#pablo" color="dribbble">
+                      <i className="fab fa-dribbble" />
+                    </Button>
+                  </li>
+                  <li>
+                    <Button justIcon simple href="#pablo" color="google">
+                      <i className="fab fa-google-plus-g" />
+                    </Button>
+                  </li>
+                  <li>
+                    <Button justIcon simple href="#pablo" color="youtube">
+                      <i className="fab fa-youtube" />
+                    </Button>
+                  </li>
+                </ul>
+                <div
+                    className={classNames(classes.pullCenter, classes.copyRight)}
                 >
-                  Creative Tim
-                </a>{" "}
-                All Rights Reserved.
+                  Copyright &copy; {1900 + new Date().getYear()}{" "}
+                  <a
+                      href="https://www.creative-tim.com?ref=mkpr-footer-components"
+                      target="_blank"
+                  >
+                    Creative Tim
+                  </a>{" "}
+                  All Rights Reserved.
+                </div>
               </div>
-            </div>
-          }
+            }
         >
-          <GridContainer>
-            <GridItem xs={12} sm={4} md={4}>
-              <h5>About Us</h5>
-              <p>
-                Creative Tim is a startup that creates design tools that make
-                the web development process faster and easier.{" "}
-              </p>
-              <p>
-                We love the web and care deeply for how users interact with a
-                digital product. We power businesses and individuals to create
-                better looking web projects around the world.{" "}
-              </p>
-            </GridItem>
-            <GridItem xs={12} sm={4} md={4}>
-              <h5>Social Feed</h5>
-              <div className={classes.socialFeed}>
-                <div>
-                  <i className="fab fa-twitter"/>
-                  <p>How to handle ethical disagreements with your clients.</p>
-                </div>
-                <div>
-                  <i className="fab fa-twitter"/>
-                  <p>The tangible benefits of designing at 1x pixel density.</p>
-                </div>
-                <div>
-                  <i className="fab fa-facebook-square"/>
-                  <p>
-                    A collection of 25 stunning sites that you can use for
-                    inspiration.
-                  </p>
-                </div>
-              </div>
-            </GridItem>
-            <GridItem xs={12} sm={4} md={4}>
-              <h5>Instagram Feed</h5>
-              <div className={classes.galleryFeed}>
-                <img
-                  src={face1}
-                  className={classNames(
-                    classes.img,
-                    classes.imgRaised,
-                    classes.imgRounded
-                  )}
-                  alt="..."
-                />
-                <img
-                  src={face2}
-                  className={classNames(
-                    classes.img,
-                    classes.imgRaised,
-                    classes.imgRounded
-                  )}
-                  alt="..."
-                />
-                <img
-                  src={face3}
-                  className={classNames(
-                    classes.img,
-                    classes.imgRaised,
-                    classes.imgRounded
-                  )}
-                  alt="..."
-                />
-                <img
-                  src={face4}
-                  className={classNames(
-                    classes.img,
-                    classes.imgRaised,
-                    classes.imgRounded
-                  )}
-                  alt="..."
-                />
-                <img
-                  src={face5}
-                  className={classNames(
-                    classes.img,
-                    classes.imgRaised,
-                    classes.imgRounded
-                  )}
-                  alt="..."
-                />
-                <img
-                  src={face6}
-                  className={classNames(
-                    classes.img,
-                    classes.imgRaised,
-                    classes.imgRounded
-                  )}
-                  alt="..."
-                />
-                <img
-                  src={face7}
-                  className={classNames(
-                    classes.img,
-                    classes.imgRaised,
-                    classes.imgRounded
-                  )}
-                  alt="..."
-                />
-                <img
-                  src={face8}
-                  className={classNames(
-                    classes.img,
-                    classes.imgRaised,
-                    classes.imgRounded
-                  )}
-                  alt="..."
-                />
-              </div>
-            </GridItem>
-          </GridContainer>
+          <div className={classes.footer}>
+            <GridContainer>
+              <GridItem xs={12} sm={3} md={3}>
+                <a href="#pablo">
+                  <h5>Material Kit PRO</h5>
+                </a>
+                <p>
+                  Probably the best UI Kit in the world! We know you{"'"}ve been
+                  waiting for it, so don{"'"}t be shy!
+                </p>
+              </GridItem>
+              <GridItem xs={12} sm={2} md={2}>
+                <h5>About</h5>
+                <ul className={classes.linksVertical}>
+                  <li>
+                    <a href="#pablo">Blog</a>
+                  </li>
+                  <li>
+                    <a href="#pablo">About us</a>
+                  </li>
+                  <li>
+                    <a href="#pablo">Presentation</a>
+                  </li>
+                  <li>
+                    <a href="#pablo">Contact us</a>
+                  </li>
+                </ul>
+              </GridItem>
+              <GridItem xs={12} sm={2} md={2}>
+                <h5>Market</h5>
+                <ul className={classes.linksVertical}>
+                  <li>
+                    <a href="#pablo">Sales FAQ</a>
+                  </li>
+                  <li>
+                    <a href="#pablo">How to register</a>
+                  </li>
+                  <li>
+                    <a href="#pablo">Sell Goods</a>
+                  </li>
+                  <li>
+                    <a href="#pablo">Receive Payment</a>
+                  </li>
+                  <li>
+                    <a href="#pablo">Transactions Issues</a>
+                  </li>
+                </ul>
+              </GridItem>
+              <GridItem xs={12} sm={2} md={2}>
+                <h5>Legal</h5>
+                <ul className={classes.linksVertical}>
+                  <li>
+                    <a href="#pablo">Transactions FAQ</a>
+                  </li>
+                  <li>
+                    <a href="#pablo">Terms & conditions</a>
+                  </li>
+                  <li>
+                    <a href="#pablo">Licenses</a>
+                  </li>
+                </ul>
+              </GridItem>
+              <GridItem xs={12} sm={3} md={3}>
+                <h5>Subscribe to Newsletter</h5>
+                <p>
+                  Join our newsletter and get news in your inbox every week! We
+                  hate spam too, so no worries about this.
+                </p>
+                <form>
+                  <CustomInput
+                      id="footeremail"
+                      formControlProps={{
+                        fullWidth: false,
+                        className: classes.customFormControl
+                      }}
+                      inputProps={{
+                        placeholder: "Your Email..."
+                      }}
+                  />
+                  <Button color="primary" justIcon>
+                    <Mail />
+                  </Button>
+                </form>
+              </GridItem>
+            </GridContainer>
+          </div>
         </Footer>
       </div>
     </div>
