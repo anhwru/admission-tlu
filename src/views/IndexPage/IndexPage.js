@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import VNav_Header from "./Sections/VNav_Header.js";
 import "./Sections/Style.scss";
 // import Parallax from "components/Parallax/Parallax.js";
@@ -32,13 +33,19 @@ function IndexPage() {
 						window.removeEventListener("scroll", checkScroll);
 				};
 		});
+
+		const [state, setState] = React.useState(null)
+		const getData = (data) => {
+			setState(data);
+		}
+
 		return (
 				
 				<div>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<VNav_Header/>
 								<VTitle/>
-								<Admis_Form/>
+								<Admis_Form haha={(data) => {getData(data)}} />
 						</MuiPickersUtilsProvider>
 				</div>
 		);

@@ -32,7 +32,16 @@ import Accordion from "components/Accordion/Accordion.js";
 import Button from "components/CustomButtons/Button.js";
 import LazyLoad from 'react-lazyload'
 
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
+import FormHelperText from '@material-ui/core/FormHelperText';
+import { Link, Redirect } from "react-router-dom";
 import { storage } from "../../../firebase/config.js";
 // import axios from "axios";
 import enrollment from "../../../api/enrollment.json";
@@ -51,10 +60,56 @@ const useStyles1 = makeStyles((theme) => ({
 	},
 }));
 
+const useStylesForLoading = makeStyles((theme) => ({
+	backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+	},
+}));
+
 
 function formatDate(date) {
 	const formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 	return formatted_date;
+}
+
+function convertName(name) {
+	switch (name) {
+		case "fullNameStudent":
+			return "Họ tên";
+		case "placeOfBirth":
+			return "Nơi sinh";
+		case "nation":
+			return "Dân tộc";
+		case "numberCMND":
+			return "CMND hoặc căn cước Công dân";
+		case "locationForCMDN":
+			return "Nơi cấp";
+		case "location":
+			return "Hộ khẩu thường trú";
+		case "phoneNumber":
+			return "Điện thoại liên lạc";
+		case "email":
+			return "Email";
+		case "contactAddress":
+			return "Địa chỉ liên hệ";
+		case "graduationYear":
+			return "Năm tốt nghiệp";
+		case "sex":
+			return "Giới tính";
+		case "province":
+			return "Tên tỉnh";
+		case "class10":
+		case "class11":
+		case "class12":
+			return "Tên trường THPT";
+		case "khuVucUuTien":
+			return "Khu vực ưu tiên";
+		case "doiTuongUuTien":
+			return "Đối tượng ưu tiên";
+		default:
+			break;
+	}
 }
 
 export default function Admis_Form(props) {
@@ -79,11 +134,22 @@ export default function Admis_Form(props) {
 
 	const date = new Date();
 	const [stateInfoStudent, setStateInfoStudent] = React.useState({
+		fullNameStudent: '',
 		sex: '',
 		dateOfBirth: date,
 		dateForCMND: date,
-		doiTuongUuTien: "",
-		khuVucUuTien: "",
+		nation: '',
+		numberCMND: '',
+		doiTuongUuTien: '',
+		locationForCMDN: '',
+		khuVucUuTien: '',
+		phoneNumber: '',
+		email: '',
+		location: '',
+		contactAddress: '',
+		graduationYear: '',
+		placeOfBirth: '',
+		province: '',
 		class10,
 		class11,
 		class12
@@ -143,7 +209,7 @@ export default function Admis_Form(props) {
 
 	const handleChangeForClass10 = (event, newValue) => {
 		console.log(newValue);
-		
+
 		class10.location = newValue.address;
 		class10.idProvince = newValue.provinceCode;
 		class10.idSchool = newValue.code;
@@ -181,7 +247,71 @@ export default function Admis_Form(props) {
 		setStateInfoStudent(prevState => ({
 			...prevState,
 			[name]: value
-		}))
+		}));
+
+		if (value !== "") {
+			setStateError(prevState => ({
+				...prevState,
+				[name]: false
+			}));
+		}
+
+		switch (name) {
+			case "fullNameStudent":
+				setStateHelper(prevState => ({
+					...prevState,
+					fullNameStudent: "Viết dúng như trong giấy khai sinh có dấu"
+				}));
+				break;
+			case "placeOfBirth":
+				setStateHelper(prevState => ({
+					...prevState,
+					placeOfBirth: "Tỉnh hoặc Thành Phố"
+				}));
+				break;
+			case "nation":
+			case "locationForCMDN":
+				setStateHelper(prevState => ({
+					...prevState,
+					[name]: "Ghi bằng chữ"
+				}));
+				break;
+			case "numberCMND":
+			case "phoneNumber":
+			case "graduationYear":
+				setStateHelper(prevState => ({
+					...prevState,
+					[name]: "Ghi bằng chữ số"
+				}));
+				break;
+			case "location":
+			case "contactAddress":
+				setStateHelper(prevState => ({
+					...prevState,
+					[name]: "Ghi rõ tên tỉnh(thành phố), huyện(quận), xã(phường)"
+				}));
+				break;
+			case "sex":
+				setStateHelper(prevState => ({
+					...prevState,
+					[name]: ""
+				}));
+				break;
+			case "khuVucUuTien":
+				setStateHelper(prevState => ({
+					...prevState,
+					[name]: ""
+				}));
+				break;
+			case "doiTuongUuTien":
+				setStateHelper(prevState => ({
+					...prevState,
+					[name]: ""
+				}));
+				break;
+			default:
+				break;
+		}
 	}
 
 	useEffect(() => {
@@ -249,7 +379,7 @@ export default function Admis_Form(props) {
 	const chonNganhChoNguyenVong = (event) => {
 		const array = event.target.name.split("@");
 		const id = parseInt(array[1]);
-		
+
 		let majors = stateMajors.nganh.filter((value, key) => {
 			return value.ten === event.target.value;
 		});
@@ -298,6 +428,15 @@ export default function Admis_Form(props) {
 		setStateToHop(listToHop)
 		setStateNguyenVong(listNV);
 	}
+
+	const classesForLoading = useStylesForLoading();
+	const [open, setOpen] = React.useState(false);
+	const [openDialog, setOpenDialog] = React.useState(false);
+	const [stateAlert, setStateAlert] = React.useState("");
+
+	const handleClose = () => {
+		setOpenDialog(false);
+	};
 
 	const listNguyenVong = stateToHop.map((value, key) => {
 		return (
@@ -378,17 +517,22 @@ export default function Admis_Form(props) {
 											<TextField id="outlined-basic" name={`lop10_mon1@${key}`}
 												onChange={chonNguyenVong}
 												label="Môn thứ nhất"
-												variant="outlined" required={true} />
+												type="number"
+												variant="outlined" required={true}
+											/>
 										</GridItem>
 										<GridItem sm={4} xs={4} lg={4} className="mg-10">
 											<TextField id="outlined-basic" name={`lop10_mon2@${key}`}
 												onChange={chonNguyenVong}
-												label="Môn thứ 2" variant="outlined"
+												label="Môn thứ 2"
+												variant="outlined"
+												type="number"
 												required={true} />
 										</GridItem>
 										<GridItem sm={4} xs={4} lg={4} className="mg-10">
 											<TextField id="outlined-basic" name={`lop10_mon3@${key}`}
 												onChange={chonNguyenVong}
+												type="number"
 												label="Môn thứ 3" variant="outlined"
 												required={true} />
 										</GridItem>
@@ -400,18 +544,21 @@ export default function Admis_Form(props) {
 										<GridItem sm={4} xs={4} lg={4} className="mg-10">
 											<TextField id="outlined-basic" name={`lop11_mon1@${key}`}
 												onChange={chonNguyenVong}
+												type="number"
 												label="Môn thứ nhất"
 												variant="outlined" required={true} />
 										</GridItem>
 										<GridItem sm={4} xs={4} lg={4} className="mg-10">
 											<TextField id="outlined-basic" name={`lop11_mon2@${key}`}
 												onChange={chonNguyenVong}
+												type="number"
 												label="Môn thứ 2" variant="outlined"
 												required={true} />
 										</GridItem>
 										<GridItem sm={4} xs={4} lg={4} className="mg-10">
 											<TextField id="outlined-basic" name={`lop11_mon3@${key}`}
 												onChange={chonNguyenVong}
+												type="number"
 												label="Môn thứ 3" variant="outlined"
 												required={true} />
 										</GridItem>
@@ -423,18 +570,21 @@ export default function Admis_Form(props) {
 										<GridItem sm={4} xs={4} lg={4} className="mg-10">
 											<TextField id="outlined-basic" name={`lop12_mon1@${key}`}
 												onChange={chonNguyenVong}
+												type="number"
 												label="Môn thứ nhất"
 												variant="outlined" required={true} />
 										</GridItem>
 										<GridItem sm={4} xs={4} lg={4} className="mg-10">
 											<TextField id="outlined-basic" name={`lop12_mon2@${key}`}
 												onChange={chonNguyenVong}
+												type="number"
 												label="Môn thứ 2" variant="outlined"
 												required={true} />
 										</GridItem>
 										<GridItem sm={4} xs={4} lg={4} className="mg-10">
 											<TextField id="outlined-basic" name={`lop12_mon3@${key}`}
 												onChange={chonNguyenVong}
+												type="number"
 												label="Môn thứ 3" variant="outlined"
 												required={true} />
 										</GridItem>
@@ -461,64 +611,263 @@ export default function Admis_Form(props) {
 		setStateNumImages(event.length)
 	}
 
+	const validateForForm = () => {
+		setOpen(true);
+		return new Promise((resolve, reject) => {
+			const keys = Object.keys(stateInfoStudent);
+			const values = Object.values(stateInfoStudent);
+
+			values.map((value, key) => {
+				if (value === "" || value.idProvince === "") {
+					setOpen(false);
+					setOpenDialog(true);
+					setStateAlert("Vui lồng kiểm tra lại các mục báo đỏ.")
+					reject("Bị lỗi");
+					setStateError(prevState => ({
+						...prevState,
+						[keys[key]]: true
+					}));
+					setStateHelper(prevState => ({
+						...prevState,
+						[keys[key]]: `${convertName(keys[key])} không được để trống`
+					}));
+				}
+				return;
+			});
+			const arrayValue = Object.values(stateError);
+			const test = arrayValue.indexOf(true);
+			console.log(stateError);
+			if (test === -1) {
+				resolve("Không có lỗi");
+			}
+		})
+	};
+
 	const handleUpload = () => {
 		return new Promise((resolve, reject) => {
 			let dem = 0;
 			let arrayUrl = [];
-			stateImages.forEach((file) => {
-				const imageFileName = `${Math.round(Math.random() * 1000000000000)}`;
-				storage.ref(`images/${imageFileName}`).put(file.file)
-					.on(
-						"state_changed",
-						snapshot => {
-							const progress = Math.round(
-								(snapshot.bytesTransferred / snapshot.totalBytes) * 100
-							);
-							setProgress(progress);
-						},
-						error => {
-							console.log(error);
-						},
-						() => {
-							storage
-								.ref("images")
-								.child(imageFileName)
-								.getDownloadURL()
-								.then((url) => {
-									arrayUrl.push(url);
-									dem = dem + 1;
-									if (dem === stateNumImages) {
-										resolve(arrayUrl);
-									}
-								});
-						}
-					)
-			})
+			if (stateImages.length === 0 || stateImages === null) {
+				setOpen(false);
+				setOpenDialog(true);
+				setStateAlert("Bạn chưa có ảnh nào cho hồ sơ. Vui lồng tải ảnh lên.")
+				reject("Chưa upload ảnh");
+			} else {
+				stateImages.forEach((file) => {
+					const imageFileName = `${Math.round(Math.random() * 1000000000000)}`;
+					storage.ref(`images/${imageFileName}`).put(file.file)
+						.on(
+							"state_changed",
+							snapshot => {
+								const progress = Math.round(
+									(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+								);
+								setProgress(progress);
+							},
+							error => {
+								console.log(error);
+							},
+							() => {
+								storage
+									.ref("images")
+									.child(imageFileName)
+									.getDownloadURL()
+									.then((url) => {
+										arrayUrl.push(url);
+										dem = dem + 1;
+										if (dem === stateNumImages) {
+											resolve(arrayUrl);
+										}
+									});
+							}
+						)
+				})
+			}
 		})
 	};
 
 	const Submit = () => {
-		handleUpload().then(async (res) => {
-			const admissionsRecords = {
-				infoStudent: stateInfoStudent,
-				infoRecords: stateNguyenVong,
-				linkImage: ""
+		validateForForm().then((res) => {
+			handleUpload().then(async (res) => {
+				const admissionsRecords = {
+					infoStudent: stateInfoStudent,
+					infoRecords: stateNguyenVong,
+					linkImage: ""
+				}
+				admissionsRecords.linkImage = res;
+				console.log(admissionsRecords);
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(admissionsRecords)
+				};
+
+				try {
+					const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
+					const data = await response.json();
+					setOpen(false);
+					setOpenDialog(true);
+					setStateAlert("Bạn đã đăng kí xét tuyển thành công. Vui lòng vào email để kiểm tra.")
+				} catch (error) {
+					setOpen(false);
+					setOpenDialog(true);
+					setStateAlert("Máy chủ đang bận. Vui lòng thử lại.")
+					console.log(error);
+				}
+			})
+		});
+	}
+
+	const ResetForm = () => {
+		// return (<Redirect
+		//     to={{
+		//       pathname: "/thong-tin-cac-nganh"
+		//     }}
+		//   />);
+		// setRedirectToInfo(<Redirect push to="/" />)
+
+		const data = `${Math.round(Math.random() * 1000000000000)}`;
+		props.haha(data)
+
+		setStateInfoStudent(prevState => ({
+			...prevState,
+			fullNameStudent: "",
+			placeOfBirth: "",
+			nation: "",
+			numberCMND: "",
+			locationForCMDN: "",
+			location: "",
+			sex: null,
+			dateOfBirth: date,
+			dateForCMND: date,
+			doiTuongUuTien: null,
+			khuVucUuTien: null,
+			class10,
+			class11,
+			class12
+		}));
+		setStateInfoRecords({ idMajors: "", tohop: "" });
+		setStateMajors({ nganh: [], idMajor: "", tohop: [] });
+		setStateNguyenVong([]);
+		setStateToHop([]);
+		setData(enrollment);
+		setName(null);
+		setStateImages(null);
+		setStateNumImages(null);
+		setProgress(null);
+		setStateError(objError);
+		setStateHelper(objHelper);
+	}
+
+	const objError = {
+		fullNameStudent: false,
+		placeOfBirth: false,
+		nation: false,
+		numberCMND: false,
+		location: false,
+		locationForCMDN: false,
+		phoneNumber: false,
+		email: false,
+		contactAddress: false,
+		graduationYear: false,
+		sex: false,
+		province: false,
+		class10: false,
+		class11: false,
+		class12: false
+	}
+
+	const objHelper = {
+		fullNameStudent: "",
+		placeOfBirth: "",
+		nation: "",
+		numberCMND: "",
+		location: "",
+		locationForCMDN: "",
+		phoneNumber: "",
+		email: "",
+		contactAddress: "",
+		graduationYear: "",
+		sex: "",
+		province: "",
+		class10: "",
+		class11: "",
+		class12: "",
+	}
+
+	const [stateError, setStateError] = React.useState(objError);
+	const [stateHelper, setStateHelper] = React.useState(objHelper);
+
+	const handleOutInput = (event) => {
+		const name = event.target.name;
+		const formatName = convertName(name);
+		if (event.target.value === "") {
+			setStateError(prevState => ({
+				...prevState,
+				[name]: true
+			}));
+			setStateHelper(prevState => ({
+				...prevState,
+				[name]: `${formatName} không được để trống`
+			}));
+		} else {
+			setStateError(prevState => ({
+				...prevState,
+				[name]: false
+			}));
+			setStateHelper(prevState => ({
+				...prevState,
+				[name]: ""
+			}));
+		}
+	}
+
+	const handleClickInput = (event) => {
+		if (!stateError[event.target.name]) {
+			switch (event.target.name) {
+				case "fullNameStudent":
+					setStateHelper(prevState => ({
+						...prevState,
+						fullNameStudent: "Viết dúng như trong giấy khai sinh có dấu"
+					}));
+					break;
+				case "placeOfBirth":
+					setStateHelper(prevState => ({
+						...prevState,
+						placeOfBirth: "Tỉnh hoặc Thành Phố"
+					}));
+					break;
+				case "nation":
+				case "locationForCMDN":
+					setStateHelper(prevState => ({
+						...prevState,
+						[event.target.name]: "Ghi bằng chữ"
+					}));
+					break;
+				case "numberCMND":
+				case "phoneNumber":
+				case "graduationYear":
+					setStateHelper(prevState => ({
+						...prevState,
+						[event.target.name]: "Ghi bằng chữ số"
+					}));
+					break;
+				case "location":
+				case "contactAddress":
+					setStateHelper(prevState => ({
+						...prevState,
+						[event.target.name]: "Ghi rõ tên tỉnh(thành phố), huyện(quận), xã(phường)"
+					}));
+					break;
+
+				default:
+					break;
 			}
-			admissionsRecords.linkImage = res;
-			console.log(admissionsRecords);
-			const requestOptions = {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(admissionsRecords)
-			};
-			const response = await fetch('http://127.0.0.1:8000/api/luuhoso', requestOptions);
-			const data = await response.json();
-			console.log(data);
-		})
+		}
 	}
 
 	return (
-		
+
 		<>
 			<div className={classes.container} id="form-data">
 				<GridContainer>
@@ -536,8 +885,8 @@ export default function Admis_Form(props) {
 				</GridContainer>
 				<GridContainer>
 					<GridItem sm={9} xs={9} lg={9} className="mg-10">
-						<TextField id="outlined-basic" name="fullNameStudent" onChange={handleChange2}
-							label="Họ tên thí sinh" variant="outlined" required={true}
+						<TextField id="outlined-basic" name="fullNameStudent" value={stateInfoStudent.fullNameStudent} onChange={handleChange2}
+							label="Họ tên thí sinh" variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.fullNameStudent} helperText={stateHelper.fullNameStudent}
 						/>
 					</GridItem>
 					{/*Select*/}
@@ -553,6 +902,8 @@ export default function Admis_Form(props) {
 								classes={{
 									select: classesform.select
 								}}
+								error={stateError.sex}
+								onBlur={handleOutInput}
 								onChange={handleChange2}
 								value={stateInfoStudent.sex}
 								labelId="simple-select-label"
@@ -580,6 +931,7 @@ export default function Admis_Form(props) {
 									Nữ
 																</MenuItem>
 							</Select>
+							<FormHelperText error={true}>{stateHelper.sex}</FormHelperText>
 						</FormControl>
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
@@ -594,16 +946,16 @@ export default function Admis_Form(props) {
 						</Fragment>
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
-						<TextField id="place-birth" name="placeOfBirth" onChange={handleChange2} label="Nơi sinh"
-							variant="outlined" required={true} />
+						<TextField id="place-birth" name="placeOfBirth" onChange={handleChange2} label="Nơi sinh" value={stateInfoStudent.placeOfBirth}
+							variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.placeOfBirth} helperText={stateHelper.placeOfBirth} />
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
-						<TextField id="nation" label="Dân tộc" variant="outlined" name="nation" onChange={handleChange2}
-							required={true} />
+						<TextField id="nation" label="Dân tộc" variant="outlined" name="nation" onChange={handleChange2} value={stateInfoStudent.nation}
+							required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.nation} helperText={stateHelper.nation} />
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
-						<TextField label="Số CMND / Căn Cước Công Dân" name="numberCMND" onChange={handleChange2}
-							variant="outlined" required={true} />
+						<TextField label="Số CMND / Căn Cước Công Dân" name="numberCMND" onChange={handleChange2} value={stateInfoStudent.numberCMND} type="number"
+							variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.numberCMND} helperText={stateHelper.numberCMND} />
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Fragment>
@@ -617,13 +969,13 @@ export default function Admis_Form(props) {
 						</Fragment>
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
-						<TextField label="Nơi Cấp" name="locationForCMDN" onChange={handleChange2} variant="outlined"
-							required={true} />
+						<TextField label="Nơi Cấp" name="locationForCMDN" onChange={handleChange2} variant="outlined" value={stateInfoStudent.locationForCMDN}
+							required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.locationForCMDN} helperText={stateHelper.locationForCMDN} />
 					</GridItem>
 					<VLine />
 					<GridItem sm={12} xs={12} lg={12} className="mg-10">
-						<TextField label="Hộ khẩu thường trú" name="location" onChange={handleChange2}
-							variant="outlined" required={true} />
+						<TextField label="Hộ khẩu thường trú" name="location" onChange={handleChange2} value={stateInfoStudent.location}
+							variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.location} helperText={stateHelper.location} />
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Autocomplete
@@ -631,11 +983,12 @@ export default function Admis_Form(props) {
 							options={data.provinces}
 							getOptionLabel={(option) => option.name}
 							style={{ width: '300', }}
-							renderInput={(params) => <TextField {...params} value={params.id} label="Mã Tỉnh"
+							renderInput={(params) => <TextField {...params} name="province" onBlur={handleOutInput} error={stateError.province} value={params.id} label="Mã Tỉnh"
 								variant="outlined" />}
 							onChange={handleChange}
 							renderOption={(option) => `${option.code}- ${option.name}`}
 						/>
+						<FormHelperText error={true}>{stateHelper.province}</FormHelperText>
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Autocomplete
@@ -664,14 +1017,15 @@ export default function Admis_Form(props) {
 							style={{ width: '300', }}
 							onChange={handleChangeForClass10}
 							renderInput={(params) =>
-									<TextField {...params} label="Tên trường THPT"
-								variant="outlined" />
-									}
+								<TextField {...params} label="Tên trường THPT" name="class10" onBlur={handleOutInput} error={stateError.class10}
+									variant="outlined" />
+							}
 							renderOption={(option) => <div>
-											<div> <LazyLoad>{option.code}- {option.name}</LazyLoad> </div>
-									<div style={{ 'font-size': '13px' }}><LazyLoad> {option.address}</LazyLoad></div>
+								<div> <LazyLoad>{option.code}- {option.name}</LazyLoad> </div>
+								<div style={{ 'font-size': '13px' }}><LazyLoad> {option.address}</LazyLoad></div>
 							</div>}
 						/>
+						<FormHelperText error={true}>{stateHelper.class10}</FormHelperText>
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
 						<TextField label="Địa chỉ" value={stateInfoStudent.class10.location} variant="outlined"
@@ -695,13 +1049,14 @@ export default function Admis_Form(props) {
 							getOptionLabel={(option) => option.name}
 							style={{ width: '300', }}
 							onChange={handleChangeForClass11}
-							renderInput={(params) => <TextField {...params} label="Tên trường THPT"
+							renderInput={(params) => <TextField {...params} label="Tên trường THPT" name="class11" onBlur={handleOutInput} error={stateError.class11}
 								variant="outlined" />}
 							renderOption={(option) => <div>
 								<div> {option.code}- {option.name} </div>
 								<div style={{ 'font-size': '13px' }}> {option.address}</div>
 							</div>}
 						/>
+						<FormHelperText error={true}>{stateHelper.class11}</FormHelperText>
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
 						<TextField label="Địa chỉ" value={stateInfoStudent.class11.location} variant="outlined"
@@ -725,13 +1080,14 @@ export default function Admis_Form(props) {
 							getOptionLabel={(option) => option.name}
 							style={{ width: '300', }}
 							onChange={handleChangeForClass12}
-							renderInput={(params) => <TextField {...params} label="Tên trường THPT"
+							renderInput={(params) => <TextField {...params} label="Tên trường THPT" name="class12" onBlur={handleOutInput} error={stateError.class12}
 								variant="outlined" />}
 							renderOption={(option) => <div>
 								<div> {option.code}- {option.name} </div>
 								<div style={{ 'font-size': '13px' }}> {option.address}</div>
 							</div>}
 						/>
+						<FormHelperText error={true}>{stateHelper.class12}</FormHelperText>
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
 						<TextField label="Địa chỉ" value={stateInfoStudent.class12.location} variant="outlined"
@@ -747,19 +1103,19 @@ export default function Admis_Form(props) {
 					</GridItem>
 					<GridItem sm={6} xs={6} lg={6} className="mg-10">
 						<TextField label="Điện thoại liên lạc" name="phoneNumber" onChange={handleChange2}
-							variant="outlined" required={true} />
+							variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.phoneNumber} helperText={stateHelper.phoneNumber} />
 					</GridItem>
 					<GridItem sm={6} xs={6} lg={6} className="mg-10">
 						<TextField label="Email" name="email" onChange={handleChange2} variant="outlined"
-							required={true} />
+							required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.email} helperText={stateHelper.email} />
 					</GridItem>
 					<GridItem sm={12} xs={12} lg={12} className="mg-10">
 						<TextField label="Địa chỉ liên hệ" name="contactAddress" onChange={handleChange2}
-							variant="outlined" required={true} />
+							variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.contactAddress} helperText={stateHelper.contactAddress} />
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
 						<TextField label="Năm tốt nghiệp" name="graduationYear" onChange={handleChange2}
-							variant="outlined" required={true} />
+							variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.graduationYear} helperText={stateHelper.graduationYear} />
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<FormControl variant="outlined" fullWidth
@@ -772,6 +1128,8 @@ export default function Admis_Form(props) {
 								classes={{
 									select: classesform.select
 								}}
+								error={stateError.khuVucUuTien}
+								onBlur={handleOutInput}
 								onChange={handleChange2}
 								value={stateInfoStudent.khuVucUuTien}
 								inputProps={{
@@ -798,6 +1156,7 @@ export default function Admis_Form(props) {
 									KV3
 																</MenuItem>
 							</Select>
+							<FormHelperText error={true}>{stateHelper.khuVucUuTien}</FormHelperText>
 						</FormControl>
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
@@ -811,6 +1170,8 @@ export default function Admis_Form(props) {
 								classes={{
 									select: classesform.select
 								}}
+								error={stateError.doiTuongUuTien}
+								onBlur={handleOutInput}
 								onChange={handleChange2}
 								value={stateInfoStudent.doiTuongUuTien}
 								inputProps={{
@@ -837,6 +1198,7 @@ export default function Admis_Form(props) {
 									02
 																</MenuItem>
 							</Select>
+							<FormHelperText error={true}>{stateHelper.doiTuongUuTien}</FormHelperText>
 						</FormControl>
 					</GridItem>
 				</GridContainer>
@@ -875,14 +1237,34 @@ export default function Admis_Form(props) {
 						<Button color="success" onClick={Submit} round>
 							<Navigation className={classes.icons} /> Đăng ký
 												</Button>
-						<Button color="rose" round>
-							<Refresh className={classes.icons} /> Làm lại
+						<Button color="rose" onClick={ResetForm} round>
+							<Refresh className={classes.icons} />  Làm lại
 												</Button>
+						<Backdrop className={classesForLoading.backdrop} open={open}>
+							<CircularProgress color="inherit" />
+						</Backdrop>
 					</GridItem>
 				</GridContainer>
+				<Dialog
+					open={openDialog}
+					onClose={handleClose}
+					aria-labelledby="alert-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					<DialogTitle id="alert-dialog-title">THÔNG BÁO</DialogTitle>
+					<DialogContent>
+						<DialogContentText id="alert-dialog-description">
+							{stateAlert}
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={handleClose} color="primary">
+							Đóng
+          				</Button>
+					</DialogActions>
+				</Dialog>
 			</div>
 		</>
 	);
-
 
 }
