@@ -35,7 +35,7 @@ export default function News() {
 														<GridContainer>
 																<GridItem xs={12} sm={5} md={5}>
 																		<CardHeader image plain>
-																				<Link to="/">
+																				<Link to="/detail">
 																						<img
 																								src="https://media.kenhtuyensinh.vn/images/cms/2019/02/dai-hoc-thuy-loi.jpg"
 																								alt="..."/>
@@ -50,11 +50,8 @@ export default function News() {
 																		</CardHeader>
 																</GridItem>
 																<GridItem xs={12} sm={7} md={7}>
-																		<Info>
-																				<h6 className={classes.cardCategory}>ENTERPRISE</h6>
-																		</Info>
 																		<h3 className={classes.cardTitle}>
-																				<Link to="/">
+																				<Link to="/detail">
 																						Autodesk looks to future of 3D printing with Project
 																						Escher
 																				</Link>
@@ -82,12 +79,6 @@ export default function News() {
 												<Card plain blog className={classes.card}>
 														<GridContainer>
 																<GridItem xs={12} sm={7} md={7}>
-																		<Danger>
-																				<h6 className={classes.cardCategory}>
-																						<TrendingUp/>
-																						TRENDING
-																				</h6>
-																		</Danger>
 																		<h3 className={classes.cardTitle}>
 																				<Link to="/">
 																						6 insights into the French Fashion landscape

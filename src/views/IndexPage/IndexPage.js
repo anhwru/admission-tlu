@@ -6,6 +6,7 @@ import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import Admis_Form from "./Sections/VForm";
 import VTitle from "./Sections/VTitle";
+import VFooter from "./Sections/VFooter";
 
 function IndexPage() {
 		document.documentElement.classList.remove("nav-open");
@@ -39,6 +40,7 @@ function IndexPage() {
 								<VNav_Header/>
 								<VTitle/>
 								<Admis_Form/>
+								<VFooter/>
 						</MuiPickersUtilsProvider>
 				</div>
 		);

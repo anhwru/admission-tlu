@@ -6,6 +6,7 @@ import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import VNav_Header from "../IndexPage/Sections/VNav_Header";
 import News from "./Sections/News";
+import VFooter from "../IndexPage/Sections/VFooter";
 
 
 function NewsPage() {
@@ -39,6 +40,7 @@ function NewsPage() {
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<VNav_Header/>
 								<News/>
+								<VFooter/>
 						</MuiPickersUtilsProvider>
 				</div>
 		);
