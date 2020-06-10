@@ -96,7 +96,7 @@ export default function News(props) {
 					<GridContainer>
 						<GridItem xs={12} sm={5} md={5}>
 							<CardHeader image plain>
-								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id +".html"}>
+								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id + "." + page + ".html"}>
 									<img
 										src={value.anh}
 										alt="..." />
@@ -112,13 +112,13 @@ export default function News(props) {
 						</GridItem>
 						<GridItem xs={12} sm={7} md={7}>
 							<h3 className={classes.cardTitle}>
-								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id +".html"}>
+								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id + "." + page + ".html"}>
 									{value.tieu_de}
 								</Link>
 							</h3>
 							<p className={classes.description1}>
 								{`${mo_ta}...`}
-								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id +".html"}>
+								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id + "." + page + ".html"}>
 									{" "}
 									Xem chi tiết{" "}
 								</Link>
@@ -139,13 +139,13 @@ export default function News(props) {
 					<GridContainer>
 						<GridItem xs={12} sm={7} md={7}>
 							<h3 className={classes.cardTitle}>
-								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id +".html"}>
+								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id + "." + page + ".html"}>
 								{value.tieu_de}
 																				</Link>
 							</h3>
 							<p className={classes.description1}>
 							{`${mo_ta}...`}
-																				<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id +".html"}>
+																				<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id + "." + page + ".html"}>
 									{" "}
 																						Xem chi tiết{" "}
 								</Link>
@@ -159,7 +159,7 @@ export default function News(props) {
 						</GridItem>
 						<GridItem xs={12} sm={5} md={5}>
 							<CardHeader image plain>
-								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id +".html"}>
+								<Link to={"/detail/" + changeURL(value.tieu_de) + "." + value.id + "." + page + ".html"}>
 									<img
 										src={value.anh}
 										alt="..." />

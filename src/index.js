@@ -22,7 +22,7 @@ ReactDOM.render(
     <Switch>
       <Route path="/thong-tin-cac-nganh" component={AdmisstionInfoPage} />
       <Route path="/thong-tin-tuyen-sinh" component={NewsPage} />
-      <Route path="/detail/:slug.:id.html" children={<ChildForNewsDetail />} />
+      <Route path="/detail/:slug.:id.:page.html" children={<ChildForNewsDetail />} />
       <Route path="/components" component={ComponentsPage} />
       <Route path="/" component={IndexPage} />
     </Switch>
