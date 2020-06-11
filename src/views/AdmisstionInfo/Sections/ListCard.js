@@ -52,7 +52,7 @@ export default function ListCard() {
 																		<SupervisorAccount className="info"/>
 																		<span> Tất cả : 3380</span>
 																</div>
-																<div className={"fac_with-icon" + " " + classescard.mlAuto}>
+																<div className={`fac_with-icon ${classescard.mlAuto}`}>
 																		<PersonAdd className="success"/>
 																		<span> Khóa trước : 600</span>
 																</div>

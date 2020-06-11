@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import VNav_Header from "./Sections/VNav_Header.js";
 import "./Sections/Style.scss";
 // import Parallax from "components/Parallax/Parallax.js";
@@ -7,7 +7,7 @@ import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import Admis_Form from "./Sections/VForm";
 import VTitle from "./Sections/VTitle";
-import VFooter from "./Sections/VFooter";
+// import VFooter from "./Sections/VFooter";
 
 function IndexPage() {
 		document.documentElement.classList.remove("nav-open");
@@ -39,7 +39,8 @@ function IndexPage() {
 		const getData = (data) => {
 			setState(data);
 		}
-
+		console.log(state);
+		
 		return (
 				
 				<div>

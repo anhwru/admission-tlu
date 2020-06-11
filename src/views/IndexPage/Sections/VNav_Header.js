@@ -16,44 +16,44 @@ import Assignment from "@material-ui/icons/Assignment";
 import Header from "components/Header/Header.js";
 import Button from "components/CustomButtons/Button.js";
 import navbarsStyle from "assets/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.js";
-import javascriptStyles from "assets/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.js";
+// import javascriptStyles from "assets/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.js";
 import Headroom from "headroom.js";
 import logo from "assets/img/tlu.png";
-import Slide from "@material-ui/core/Slide";
-import Mail from "@material-ui/icons/Mail";
-import Face from "@material-ui/icons/Face";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+// import Slide from "@material-ui/core/Slide";
+// import Mail from "@material-ui/icons/Mail";
+// import Face from "@material-ui/icons/Face";
+// import Card from "components/Card/Card.js";
+// import CardHeader from "components/Card/CardHeader.js";
+// import CardBody from "components/Card/CardBody.js";
+// import CustomInput from "components/CustomInput/CustomInput.js";
+// import FormControlLabel from "@material-ui/core/FormControlLabel";
+// import Checkbox from "@material-ui/core/Checkbox";
 
 
 const useStyles = makeStyles(navbarsStyle);
-const jsstyle = makeStyles(javascriptStyles);
+// const jsstyle = makeStyles(javascriptStyles);
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-		return <Slide direction="down" ref={ref} {...props} />;
-});
+// const Transition = React.forwardRef(function Transition(props, ref) {
+// 		return <Slide direction="down" ref={ref} {...props} />;
+// });
 
 function VNav_Header() {
-		const [loginModal, setLoginModal] = React.useState(false);
-		const [signupModal, setSignupModal] = React.useState(false);
-		const [checked, setChecked] = React.useState([]);
+		// const [loginModal, setLoginModal] = React.useState(false);
+		// const [signupModal, setSignupModal] = React.useState(false);
+		// const [checked, setChecked] = React.useState([]);
 		const classes = useStyles();
-		const classes2 = jsstyle();
-		const handleToggle = value => {
-				const currentIndex = checked.indexOf(value);
-				const newChecked = [...checked];
+		// const classes2 = jsstyle();
+		// const handleToggle = value => {
+		// 		const currentIndex = checked.indexOf(value);
+		// 		const newChecked = [...checked];
 				
-				if (currentIndex === -1) {
-						newChecked.push(value);
-				} else {
-						newChecked.splice(currentIndex, 1);
-				}
-				setChecked(newChecked);
-		};
+		// 		if (currentIndex === -1) {
+		// 				newChecked.push(value);
+		// 		} else {
+		// 				newChecked.splice(currentIndex, 1);
+		// 		}
+		// 		setChecked(newChecked);
+		// };
 		React.useEffect(() => {
 				let headroom = new Headroom(document.getElementById("nav-header"));
 				headroom.init();
@@ -67,7 +67,7 @@ function VNav_Header() {
 										<>
 												<List className="logo">
 														<Link to="/">
-																<img src={logo} style={{width: '50px', height: '60px'}}/>
+																<img src={logo} alt="" style={{width: '50px', height: '60px'}}/>
 																<span className="brand-info">TRƯỜNG ĐẠI HỌC THỦY LỢI</span>
 														</Link>
 												</List>

@@ -14,7 +14,7 @@ export default function VLine() {
     const classes = useStyles();
 
     return (
-        <div className={classes.container + " " + "hktt"} >
+        <div className={classes.container} >
             <h4>Hộ khẩu thường trú</h4>
         </div>
     );

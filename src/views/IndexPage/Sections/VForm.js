@@ -15,7 +15,7 @@ import Refresh from "@material-ui/icons/Refresh";
 import Navigation from "@material-ui/icons/Navigation";
 import Add from "@material-ui/icons/Add";
 import Clear from "@material-ui/icons/Clear";
-import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
+// import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 
 // style for page
 import styles from "assets/jss/material-kit-pro-react/views/componentsSections/preFooter.js";
@@ -30,7 +30,7 @@ import RUG from 'react-upload-gallery';
 import 'react-upload-gallery/dist/style.css'
 import Accordion from "components/Accordion/Accordion.js";
 import Button from "components/CustomButtons/Button.js";
-import LazyLoad from 'react-lazyload'
+// import LazyLoad from 'react-lazyload'
 
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -41,11 +41,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { Link, Redirect } from "react-router-dom";
+// import { Link, Redirect } from "react-router-dom";
 import { storage } from "../../../firebase/config.js";
 // import axios from "axios";
 import enrollment from "../../../api/enrollment.json";
 import province from "../../../api/province.json";
+import { bool } from "prop-types";
 
 
 const useStyles = makeStyles(styles);
@@ -154,7 +155,7 @@ export default function Admis_Form(props) {
 		class11,
 		class12
 	});
-	const [stateInfoRecords, setStateInfoRecords] = React.useState({ idMajors: "", tohop: "" });
+	// const [stateInfoRecords, setStateInfoRecords] = React.useState({ idMajors: "", tohop: "" });
 	const [stateMajors, setStateMajors] = React.useState({ nganh: [], idMajor: "", tohop: [] });
 	const [stateNguyenVong, setStateNguyenVong] = React.useState([]);
 	const [stateToHop, setStateToHop] = React.useState([]);
@@ -164,8 +165,54 @@ export default function Admis_Form(props) {
 	const classes1 = useStyles1();
 
 	const [data, setData] = useState(enrollment);
+	const [openAutoCompleteFor10, setOpenAutoCompleteFor10] = React.useState(false);
+	const [openAutoCompleteFor11, setOpenAutoCompleteFor11] = React.useState(false);
+	const [openAutoCompleteFor12, setOpenAutoCompleteFor12] = React.useState(false);
 
-	const [name, setName] = useState(null);
+	const [highSchool, setHighSchool] = React.useState([]);
+	const [highSchool11, setHighSchool11] = React.useState([]);
+	const [highSchool12, setHighSchool12] = React.useState([]);
+	const loadingFor10 = openAutoCompleteFor10 && highSchool.length === 0;
+	const loadingFor11 = openAutoCompleteFor11 && highSchool11.length === 0;
+	const loadingFor12 = openAutoCompleteFor12 && highSchool12.length === 0;
+
+	React.useEffect(() => {
+		setTimeout(() => {
+			setHighSchool(enrollment.highSchools);
+		}, 4000);
+	}, [loadingFor10]);
+
+	React.useEffect(() => {
+		setTimeout(() => {
+			setHighSchool11(enrollment.highSchools);
+		}, 4000);
+	}, [loadingFor11]);
+
+	React.useEffect(() => {
+		setTimeout(() => {
+			setHighSchool12(enrollment.highSchools);
+		}, 4000);
+	}, [loadingFor12]);
+
+	React.useEffect(() => {
+		if (!openAutoCompleteFor10) {
+			setHighSchool([]);
+		}
+	}, [openAutoCompleteFor10]);
+
+	React.useEffect(() => {
+		if (!openAutoCompleteFor11) {
+			setHighSchool11([]);
+		}
+	}, [openAutoCompleteFor11]);
+
+	React.useEffect(() => {
+		if (!openAutoCompleteFor12) {
+			setHighSchool12([]);
+		}
+	}, [openAutoCompleteFor12]);
+
+	const [name, setName] = useState([]);
 
 	const findDistrict = async (id) => {
 		const requestUrl = `/api/city/${id}/district`;
@@ -175,15 +222,25 @@ export default function Admis_Form(props) {
 	}
 
 	const handleChange = (event, newValue) => {
-		const data = `${newValue.code}|${newValue.name}`
-		setStateInfoStudent(prevState => ({
-			...prevState,
-			province: data
-		}))
-		let provinces = province.LtsItem.filter((value, key) => {
-			return value.Title == newValue.name;
-		})
-		findDistrict(provinces[0].ID);
+		if (newValue !== null) {
+			setStateHelper(prevState => ({
+				...prevState,
+				province: ""
+			}));
+			setStateError(prevState => ({
+				...prevState,
+				province: false
+			}));
+			const data = `${newValue.code}|${newValue.name}`
+			setStateInfoStudent(prevState => ({
+				...prevState,
+				province: data
+			}))
+			let provinces = province.LtsItem.filter((value, key) => {
+				return value.Title === newValue.name;
+			})
+			findDistrict(provinces[0].ID);
+		}
 	};
 
 	const handleChangeDateOfBirth = (date) => {
@@ -194,10 +251,12 @@ export default function Admis_Form(props) {
 	};
 
 	const handleChangeDistrict = (event, newValue) => {
-		setStateInfoStudent(prevState => ({
-			...prevState,
-			district: newValue.Title
-		}))
+		if (newValue !== null) {
+			setStateInfoStudent(prevState => ({
+				...prevState,
+				district: newValue.Title
+			}))
+		}
 	};
 
 	const handleDateChangeDateForCMND = (date) => {
@@ -208,38 +267,70 @@ export default function Admis_Form(props) {
 	};
 
 	const handleChangeForClass10 = (event, newValue) => {
-		console.log(newValue);
+		if (newValue !== null) {
+			setStateHelper(prevState => ({
+				...prevState,
+				class10: ""
+			}));
+			setStateError(prevState => ({
+				...prevState,
+				class10: false
+			}));
 
-		class10.location = newValue.address;
-		class10.idProvince = newValue.provinceCode;
-		class10.idSchool = newValue.code;
-		class10.nameSchool = newValue.name;
-		setStateInfoStudent(prevState => ({
-			...prevState,
-			class10: class10
-		}))
+			class10.location = newValue.address;
+			class10.idProvince = newValue.provinceCode;
+			class10.idSchool = newValue.code;
+			class10.nameSchool = newValue.name;
+			setStateInfoStudent(prevState => ({
+				...prevState,
+				class10: class10
+			}))
+		}
 	};
 
 	const handleChangeForClass11 = (event, newValue) => {
-		class11.location = newValue.address;
-		class11.idProvince = newValue.provinceCode;
-		class11.idSchool = newValue.code;
-		class11.nameSchool = newValue.name;
-		setStateInfoStudent(prevState => ({
-			...prevState,
-			class11: class11
-		}))
+		if (newValue !== null) {
+			setStateHelper(prevState => ({
+				...prevState,
+				class11: ""
+			}));
+			setStateError(prevState => ({
+				...prevState,
+				class11: false
+			}));
+			console.log(newValue);
+
+			class11.location = newValue.address;
+			class11.idProvince = newValue.provinceCode;
+			class11.idSchool = newValue.code;
+			class11.nameSchool = newValue.name;
+			setStateInfoStudent(prevState => ({
+				...prevState,
+				class11: class11
+			}))
+		}
 	};
 
 	const handleChangeForClass12 = (event, newValue) => {
-		class12.location = newValue.address;
-		class12.idProvince = newValue.provinceCode;
-		class12.idSchool = newValue.code;
-		class12.nameSchool = newValue.name;
-		setStateInfoStudent(prevState => ({
-			...prevState,
-			class12: class12
-		}))
+		if (newValue !== null) {
+			setStateHelper(prevState => ({
+				...prevState,
+				class12: ""
+			}));
+			setStateError(prevState => ({
+				...prevState,
+				class12: false
+			}));
+
+			class12.location = newValue.address;
+			class12.idProvince = newValue.provinceCode;
+			class12.idSchool = newValue.code;
+			class12.nameSchool = newValue.name;
+			setStateInfoStudent(prevState => ({
+				...prevState,
+				class12: class12
+			}))
+		}
 	};
 
 	const handleChange2 = e => {
@@ -326,13 +417,13 @@ export default function Admis_Form(props) {
 		fetchData();
 	}, []);
 
-	const handleChangeStateInfoRecords = e => {
-		const { name, value } = e.target
-		setStateInfoRecords(prevState => ({
-			...prevState,
-			[name]: value
-		}))
-	}
+	// const handleChangeStateInfoRecords = e => {
+	// 	const { name, value } = e.target
+	// 	setStateInfoRecords(prevState => ({
+	// 		...prevState,
+	// 		[name]: value
+	// 	}))
+	// }
 
 	const listMajor = stateMajors.nganh.map((value, key) => {
 		return (<MenuItem
@@ -441,6 +532,7 @@ export default function Admis_Form(props) {
 	const listNguyenVong = stateToHop.map((value, key) => {
 		return (
 			<Accordion
+				key={key}
 				active={0}
 				activeColor="info"
 				collapses={[
@@ -612,6 +704,8 @@ export default function Admis_Form(props) {
 	}
 
 	const validateForForm = () => {
+		console.log(stateNguyenVong);
+		
 		setOpen(true);
 		return new Promise((resolve, reject) => {
 			const keys = Object.keys(stateInfoStudent);
@@ -634,9 +728,18 @@ export default function Admis_Form(props) {
 				}
 				return;
 			});
+			stateNguyenVong.map((value, key) => {
+				let v = Object.values(value);
+				if (v.indexOf("") !== -1) {
+					setOpen(false);
+					setOpenDialog(true);
+					setStateAlert("Nguyện vọng phải được điền đầy đủ các trường")
+					reject("Bị lỗi");
+				}
+			})
+
 			const arrayValue = Object.values(stateError);
 			const test = arrayValue.indexOf(true);
-			console.log(stateError);
 			if (test === -1) {
 				resolve("Không có lỗi");
 			}
@@ -737,24 +840,24 @@ export default function Admis_Form(props) {
 			numberCMND: "",
 			locationForCMDN: "",
 			location: "",
-			sex: null,
+			sex: "",
 			dateOfBirth: date,
 			dateForCMND: date,
-			doiTuongUuTien: null,
-			khuVucUuTien: null,
+			doiTuongUuTien: "",
+			khuVucUuTien: "",
 			class10,
 			class11,
 			class12
 		}));
-		setStateInfoRecords({ idMajors: "", tohop: "" });
+		// setStateInfoRecords({ idMajors: "", tohop: "" });
 		setStateMajors({ nganh: [], idMajor: "", tohop: [] });
 		setStateNguyenVong([]);
 		setStateToHop([]);
 		setData(enrollment);
-		setName(null);
-		setStateImages(null);
-		setStateNumImages(null);
-		setProgress(null);
+		setName([]);
+		setStateImages([]);
+		setStateNumImages([]);
+		setProgress([]);
 		setStateError(objError);
 		setStateHelper(objHelper);
 	}
@@ -979,8 +1082,8 @@ export default function Admis_Form(props) {
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Autocomplete
-							id="combo-box-demo"
-							options={data.provinces}
+							// id="combo-box-demo"
+							options={enrollment.provinces}
 							getOptionLabel={(option) => option.name}
 							style={{ width: '300', }}
 							renderInput={(params) => <TextField {...params} name="province" onBlur={handleOutInput} error={stateError.province} value={params.id} label="Mã Tỉnh"
@@ -992,11 +1095,11 @@ export default function Admis_Form(props) {
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Autocomplete
-							id="combo-box-demo"
 							options={name}
 							getOptionLabel={(option) => option.Title}
 							style={{ width: '300', }}
-							disabled={name === null}
+							disabled={name.length === 0}
+							
 							onChange={handleChangeDistrict}
 							renderInput={(params) => <TextField {...params} name="district" label="Mã Huyện"
 								variant="outlined" />}
@@ -1011,18 +1114,40 @@ export default function Admis_Form(props) {
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Autocomplete
-							id="combo-box-demo"
-							options={data.highSchools}
+							open={openAutoCompleteFor10}
+							loading={loadingFor10}
+							onOpen={() => {
+								setOpenAutoCompleteFor10(true);
+							}}
+							onClose={() => {
+								setOpenAutoCompleteFor10(false);
+							}}
+							options={highSchool}
 							getOptionLabel={(option) => option.name}
 							style={{ width: '300', }}
 							onChange={handleChangeForClass10}
 							renderInput={(params) =>
-								<TextField {...params} label="Tên trường THPT" name="class10" onBlur={handleOutInput} error={stateError.class10}
-									variant="outlined" />
+								<TextField
+									{...params}
+									label="Tên trường THPT"
+									name="class10"
+									onBlur={handleOutInput}
+									error={stateError.class10}
+									variant="outlined"
+									InputProps={{
+										...params.InputProps,
+										endAdornment: (
+											<React.Fragment>
+												{loadingFor10 ? <CircularProgress color="inherit" size={20} /> : null}
+												{params.InputProps.endAdornment}
+											</React.Fragment>
+										),
+									}}
+								/>
 							}
 							renderOption={(option) => <div>
-								<div> <LazyLoad>{option.code}- {option.name}</LazyLoad> </div>
-								<div style={{ 'font-size': '13px' }}><LazyLoad> {option.address}</LazyLoad></div>
+								<div> {option.code}- {option.name} </div>
+								<div style={{ 'fontSize': '13px' }}> {option.address}</div>
 							</div>}
 						/>
 						<FormHelperText error={true}>{stateHelper.class10}</FormHelperText>
@@ -1044,16 +1169,40 @@ export default function Admis_Form(props) {
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Autocomplete
-							id="combo-box-demo"
-							options={data.highSchools}
+							open={openAutoCompleteFor11}
+							loading={loadingFor11}
+							onOpen={() => {
+								setOpenAutoCompleteFor11(true);
+							}}
+							onClose={() => {
+								setOpenAutoCompleteFor11(false);
+							}}
+							options={highSchool11}
 							getOptionLabel={(option) => option.name}
 							style={{ width: '300', }}
 							onChange={handleChangeForClass11}
-							renderInput={(params) => <TextField {...params} label="Tên trường THPT" name="class11" onBlur={handleOutInput} error={stateError.class11}
-								variant="outlined" />}
+							renderInput={(params) =>
+								<TextField
+									{...params}
+									label="Tên trường THPT"
+									name="class11"
+									onBlur={handleOutInput}
+									error={stateError.class11}
+									variant="outlined"
+									InputProps={{
+										...params.InputProps,
+										endAdornment: (
+											<React.Fragment>
+												{loadingFor11 ? <CircularProgress color="inherit" size={20} /> : null}
+												{params.InputProps.endAdornment}
+											</React.Fragment>
+										),
+									}}
+								/>
+							}
 							renderOption={(option) => <div>
 								<div> {option.code}- {option.name} </div>
-								<div style={{ 'font-size': '13px' }}> {option.address}</div>
+								<div style={{ 'fontSize': '13px' }}> {option.address}</div>
 							</div>}
 						/>
 						<FormHelperText error={true}>{stateHelper.class11}</FormHelperText>
@@ -1075,16 +1224,40 @@ export default function Admis_Form(props) {
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
 						<Autocomplete
-							id="combo-box-demo"
-							options={data.highSchools}
+							open={openAutoCompleteFor12}
+							loading={loadingFor12}
+							onOpen={() => {
+								setOpenAutoCompleteFor12(true);
+							}}
+							onClose={() => {
+								setOpenAutoCompleteFor12(false);
+							}}
+							options={highSchool12}
 							getOptionLabel={(option) => option.name}
 							style={{ width: '300', }}
 							onChange={handleChangeForClass12}
-							renderInput={(params) => <TextField {...params} label="Tên trường THPT" name="class12" onBlur={handleOutInput} error={stateError.class12}
-								variant="outlined" />}
+							renderInput={(params) =>
+								<TextField
+									{...params}
+									label="Tên trường THPT"
+									name="class12"
+									onBlur={handleOutInput}
+									error={stateError.class12}
+									variant="outlined"
+									InputProps={{
+										...params.InputProps,
+										endAdornment: (
+											<React.Fragment>
+												{loadingFor12 ? <CircularProgress color="inherit" size={20} /> : null}
+												{params.InputProps.endAdornment}
+											</React.Fragment>
+										),
+									}}
+								/>
+							}
 							renderOption={(option) => <div>
 								<div> {option.code}- {option.name} </div>
-								<div style={{ 'font-size': '13px' }}> {option.address}</div>
+								<div style={{ 'fontSize': '13px' }}> {option.address}</div>
 							</div>}
 						/>
 						<FormHelperText error={true}>{stateHelper.class12}</FormHelperText>
@@ -1102,7 +1275,7 @@ export default function Admis_Form(props) {
 							disabled={true} />
 					</GridItem>
 					<GridItem sm={6} xs={6} lg={6} className="mg-10">
-						<TextField label="Điện thoại liên lạc" name="phoneNumber" onChange={handleChange2}
+						<TextField label="Điện thoại liên lạc" type="number" name="phoneNumber" onChange={handleChange2}
 							variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.phoneNumber} helperText={stateHelper.phoneNumber} />
 					</GridItem>
 					<GridItem sm={6} xs={6} lg={6} className="mg-10">

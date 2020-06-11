@@ -39,6 +39,7 @@ function NewsPage() {
 		const getData = (data) => {
 			setState(data);
 		}
+		console.log(state);
 		
 		return (
 				
