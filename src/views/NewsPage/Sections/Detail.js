@@ -92,7 +92,6 @@ export default function Detail(props) {
 							className={classes.coloredShadow}
 							style={{
 								backgroundImage: `url(${value.anh})`,
-								backgroundImage: `url(dsfdfh)`,
 								opacity: "1"
 							}}
 						/>

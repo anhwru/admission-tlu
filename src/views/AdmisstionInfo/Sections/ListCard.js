@@ -35,7 +35,7 @@ export default function ListCard() {
 				<div className={classes.container} id="form-data">
 						<GridContainer>
 								<GridItem xs={12} sm={4} md={4} lg={4}>
-										<Link to="/cong-nghe-thong-tin">
+										<Link to="/khoa">
 												<Card className="faculty">
 														<CardBody className="faculty-head">
 																<Danger>
