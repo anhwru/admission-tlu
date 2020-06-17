@@ -14,6 +14,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import InfoArea from "components/InfoArea/InfoArea.js";
+import Success from "components/Typography/Success.js";
 import Badge from "components/Badge/Badge.js";
 import {
 		Link
@@ -43,9 +44,11 @@ export default function Info() {
 												<h2 className={classes.title}>
 														Khoa Công Nghệ Thông Tin
 												</h2>
-												<h5 className={classes.description}>
-														Công Nghệ Thông Tin, Hệ Thống Thông Tin, Phần Mềm
-												</h5>
+												<h3 className={classes.description + " " + "branch_name"}>
+														<Success>
+																Công Nghệ Thông Tin, Hệ Thống Thông Tin, Phần Mềm
+														</Success>
+												</h3>
 												<div className={classes.sectionSpace}/>
 										</GridItem>
 								</GridContainer>

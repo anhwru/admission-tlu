@@ -17,6 +17,7 @@ import ChildForNewsDetail from "./views/NewsPage/Sections/child";
 import Detail from "./views/NewsPage/Sections/Detail";
 import AboutPage from "./views/AboutUsPage/AboutPage";
 import InfoPage from "./views/InfoPage/InfoPage";
+import ProfilePage from "./views/ProfilePage/ProfilePage";
 
 
 var hist = createBrowserHistory();
@@ -30,6 +31,7 @@ ReactDOM.render(
       <Route path="/components" component={ComponentsPage} />
       <Route path="/gioi-thieu" component={AboutPage} />
       <Route path="/khoa" component={InfoPage} />
+      <Route path="/ho-so" component={ProfilePage} />
       <Route path="/" component={IndexPage} />
     </Switch>
   </Router>,

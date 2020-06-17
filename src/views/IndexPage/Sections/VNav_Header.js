@@ -100,28 +100,17 @@ function VNav_Header() {
 																				<Link to="thong-tin-tuyen-sinh">
 																						<Button
 																								color="transparent">
-																								<AccountCircle/> Thông báo tuyển sinh
+																								<AccountCircle/> Thông tin tuyển sinh
 																						</Button>
 																				</Link>,
 																		]}
 																/>
 														</ListItem>
 														<ListItem className={classes.listItem}>
-																<Link to="tu-van-tuyen-sinh">
-																		<Button
-																				className={classes.navLink}
-																				color="transparent"
-																		>
-																				<Assignment/> Tư vấn tuyển sinh
-																		</Button>
-																</Link>
-														</ListItem>
-														<ListItem className={classes.listItem}>
 																<Link to="gioi-thieu">
 																		<Button
 																				className={classes.navLink}
-																				color="transparent"
-																		>
+																				color="transparent">
 																				<Info/> Giới thiệu
 																		</Button>
 																</Link>

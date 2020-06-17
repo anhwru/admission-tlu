@@ -360,7 +360,7 @@ export default function Admis_Form(props) {
 					placeOfBirth: "Tỉnh hoặc Thành Phố"
 				}));
 				break;
-			case "nation":
+				case "nation":
 			case "locationForCMDN":
 				setStateHelper(prevState => ({
 					...prevState,
