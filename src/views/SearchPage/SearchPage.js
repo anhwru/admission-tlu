@@ -5,10 +5,10 @@ import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import VNav_Header from "../IndexPage/Sections/VNav_Header";
 import VFooter from "../IndexPage/Sections/VFooter";
-import ProfileDetail from "./Sections/ProfileDetail";
+import Search from "./Sections/Search";
 
 
-function ProfilePage() {
+function SeacrhPage() {
 		document.documentElement.classList.remove("nav-open");
 		const checkScroll = () => {
 				const componentPosition = document.getElementsByClassName("add-animation");
@@ -40,11 +40,11 @@ function ProfilePage() {
 				<div>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<VNav_Header/>
-								<ProfileDetail/>
+								<Search/>
 								<VFooter/>
 						</MuiPickersUtilsProvider>
 				</div>
 		);
 }
 
-export default ProfilePage;
+export default SeacrhPage;

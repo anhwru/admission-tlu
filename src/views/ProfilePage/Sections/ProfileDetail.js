@@ -1,11 +1,5 @@
 import React from "react";
 // react components used to create a google map
-import {
-		withScriptjs,
-		withGoogleMap,
-		GoogleMap,
-		Marker
-} from "react-google-maps";
 // @material-ui/core components
 import {makeStyles} from "@material-ui/core/styles";
 // @material-ui/icons
@@ -27,6 +21,22 @@ import TextField from '@material-ui/core/TextField';
 import contactsStyle from "assets/jss/material-kit-pro-react/views/sectionsSections/contactsStyle.js";
 
 const useStyles = makeStyles(contactsStyle);
+const images = [
+		{
+				original: 'https://oisp.hcmut.edu.vn/wp-content/uploads/2016/10/images_Hoang_Yen__Marketing_Hanh-kiem-anh-huong-THPT-Quoc-gia.jpg',
+				thumbnail: 'https://oisp.hcmut.edu.vn/wp-content/uploads/2016/10/images_Hoang_Yen__Marketing_Hanh-kiem-anh-huong-THPT-Quoc-gia.jpg',
+		},
+		{
+				original: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRKFfiLu106rtW6D1JeZHBV-9vTHgUxniFSwgXNwVwTX73Q6Nls&usqp=CAU',
+				thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRKFfiLu106rtW6D1JeZHBV-9vTHgUxniFSwgXNwVwTX73Q6Nls&usqp=CAU',
+		},
+		{
+				original: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTkD1ts_jaoect0NtE8d7pqPgd2-6Lk_kCdSuokQZElBiWmRyj5&usqp=CAU',
+				thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTkD1ts_jaoect0NtE8d7pqPgd2-6Lk_kCdSuokQZElBiWmRyj5&usqp=CAU',
+		}
+
+
+];
 
 
 export default function ProfileDetail({...rest}) {
@@ -48,7 +58,7 @@ export default function ProfileDetail({...rest}) {
 								<GridItem xs={12} sm={12} md={12}>
 										<Card xs={12} sm={12} md={12}>
 												<form>
-														<CardHeader contact color="rose" className={classes.textCenter}>
+														<CardHeader contact color="info" className={classes.textCenter}>
 																<h4 className={classes.cardTitle + " " + "title"}>Thông tin đăng ký xét tuyển</h4>
 														</CardHeader>
 														<CardBody>
@@ -221,12 +231,14 @@ export default function ProfileDetail({...rest}) {
 																						: <Info>9.2</Info> - <Success>8.5</Success> - <Warning>7.9</Warning> <span>Trung bình : <Danger>8.53</Danger></span></GridItem>
 																		</>
 																		<>
-																				<GridItem xs={8} className="mgt-10"><strong className="child-bold mgt-10"><Danger>Nguyện vọng 2</Danger> -
+																				<GridItem xs={8} className="mgt-10"><strong
+																						className="child-bold mgt-10"><Danger>Nguyện vọng 2</Danger> -
 																						Môi Trường / mã
 																						ngành
 																						TLA018</strong></GridItem>
 																				<GridItem xs={4} className="mgt-10"> Kết quả xét tuyển : <strong
-																						className="child-bold status"><Danger>Không trúng tuyển</Danger></strong></GridItem>
+																						className="child-bold status"><Danger>Không trúng
+																						tuyển</Danger></strong></GridItem>
 																				<GridItem xs={12}><strong>Tổ hợp xét tuyển : D01 </strong></GridItem>
 																				<GridItem xs={12}><i><b> Điểm xét tuyển học bạ theo từng năm </b></i></GridItem>
 																				<GridItem xs={4} className="child-bold">Lớp 10
@@ -234,7 +246,8 @@ export default function ProfileDetail({...rest}) {
 																				<GridItem xs={4} className="child-bold">Lớp 11
 																						: <Info>9.2</Info> - <Success>8.5</Success> - <Warning>7.9</Warning> <span>Trung bình : <Danger>7.6</Danger></span></GridItem>
 																				<GridItem xs={4} className="child-bold">Lớp 12
-																						: <Info>7.2</Info> - <Success>7.5</Success> - <Warning>7.8.9</Warning> <span>Trung bình : <Danger>7.5</Danger></span></GridItem>
+																						: <Info>7.2</Info> - <Success>7.5</Success> - <Warning>7.8.9</Warning>
+																						<span>Trung bình : <Danger>7.5</Danger></span></GridItem>
 																		</>
 																
 																</GridContainer>
