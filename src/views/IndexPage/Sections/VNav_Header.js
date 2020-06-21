@@ -10,50 +10,20 @@ import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 // @material-ui/icons
 import Info from "@material-ui/icons/Info";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import Explore from "@material-ui/icons/Explore";
+import Create from "@material-ui/icons/Create";
+import Search from "@material-ui/icons/Search";
 import Assignment from "@material-ui/icons/Assignment";
 // core components
 import Header from "components/Header/Header.js";
 import Button from "components/CustomButtons/Button.js";
 import navbarsStyle from "assets/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.js";
-// import javascriptStyles from "assets/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.js";
 import Headroom from "headroom.js";
 import logo from "assets/img/tlu.png";
-// import Slide from "@material-ui/core/Slide";
-// import Mail from "@material-ui/icons/Mail";
-// import Face from "@material-ui/icons/Face";
-// import Card from "components/Card/Card.js";
-// import CardHeader from "components/Card/CardHeader.js";
-// import CardBody from "components/Card/CardBody.js";
-// import CustomInput from "components/CustomInput/CustomInput.js";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import Checkbox from "@material-ui/core/Checkbox";
-
 
 const useStyles = makeStyles(navbarsStyle);
-// const jsstyle = makeStyles(javascriptStyles);
-
-// const Transition = React.forwardRef(function Transition(props, ref) {
-// 		return <Slide direction="down" ref={ref} {...props} />;
-// });
 
 function VNav_Header() {
-		// const [loginModal, setLoginModal] = React.useState(false);
-		// const [signupModal, setSignupModal] = React.useState(false);
-		// const [checked, setChecked] = React.useState([]);
 		const classes = useStyles();
-		// const classes2 = jsstyle();
-		// const handleToggle = value => {
-		// 		const currentIndex = checked.indexOf(value);
-		// 		const newChecked = [...checked];
-				
-		// 		if (currentIndex === -1) {
-		// 				newChecked.push(value);
-		// 		} else {
-		// 				newChecked.splice(currentIndex, 1);
-		// 		}
-		// 		setChecked(newChecked);
-		// };
 		React.useEffect(() => {
 				let headroom = new Headroom(document.getElementById("nav-header"));
 				headroom.init();
@@ -78,7 +48,7 @@ function VNav_Header() {
 																				className={classes.navLink + " " + classes.navLinkActive}
 																				color="transparent"
 																		>
-																				<Explore/> Đăng ký xét tuyển
+																				<Create/> Đăng ký xét tuyển
 																		</Button>
 																</Link>
 														</ListItem>
@@ -105,6 +75,16 @@ function VNav_Header() {
 																				</Link>,
 																		]}
 																/>
+														</ListItem>
+														<ListItem className={classes.listItem}>
+																<Link to="/tim-kiem-ho-so">
+																		<Button
+																				className={classes.navLink + " " + classes.navLinkActive}
+																				color="transparent"
+																		>
+																				<Search/> Tìm kiếm hồ sơ
+																		</Button>
+																</Link>
 														</ListItem>
 														<ListItem className={classes.listItem}>
 																<Link to="gioi-thieu">

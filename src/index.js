@@ -1,8 +1,7 @@
-
 import React from "react";
 import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch } from "react-router";
+import {createBrowserHistory} from "history";
+import {Router, Route, Switch} from "react-router";
 
 import "assets/scss/material-kit-pro-react.scss?v=1.8.0";
 
@@ -19,6 +18,7 @@ import Detail from "./views/NewsPage/Sections/Detail";
 import AboutPage from "./views/AboutUsPage/AboutPage";
 import InfoPage from "./views/InfoPage/InfoPage";
 import ProfilePage from "./views/ProfilePage/ProfilePage";
+import SeacrhPage from "./views/SearchPage/SearchPage";
 
 
 var hist = createBrowserHistory();
@@ -34,6 +34,7 @@ ReactDOM.render(
       <Route path="/khoa/:slug.:id" children={<ChildForMajorsDetail />} />
       <Route path="/khoa" component={InfoPage} />
       <Route path="/ho-so" component={ProfilePage} />
+      <Route path="/tim-kiem-ho-so" component={SeacrhPage}/>
       <Route path="/" component={IndexPage} />
     </Switch>
   </Router>,
