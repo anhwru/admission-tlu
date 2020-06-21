@@ -360,7 +360,7 @@ export default function Admis_Form(props) {
 					placeOfBirth: "Tỉnh hoặc Thành Phố"
 				}));
 				break;
-				case "nation":
+			case "nation":
 			case "locationForCMDN":
 				setStateHelper(prevState => ({
 					...prevState,
@@ -412,6 +412,19 @@ export default function Admis_Form(props) {
 			const responseJSON = await response.json();
 
 			setStateMajors(responseJSON)
+		}
+
+		fetchData();
+	}, []);
+
+	const [listCMND, setListCMND] = useState([]);
+	useEffect(() => {
+		async function fetchData() {
+			const requestUrl = 'http://127.0.0.1:8000/api/cmnd';
+			const response = await fetch(requestUrl);
+			const responseJSON = await response.json();
+
+			setListCMND(responseJSON)
 		}
 
 		fetchData();
@@ -705,11 +718,30 @@ export default function Admis_Form(props) {
 
 	const validateForForm = () => {
 		console.log(stateNguyenVong);
-		
+
 		setOpen(true);
 		return new Promise((resolve, reject) => {
 			const keys = Object.keys(stateInfoStudent);
 			const values = Object.values(stateInfoStudent);
+
+			const ktCMND = listCMND.filter((value, key) => {
+				return value.cmnd == stateInfoStudent.numberCMND;
+			})
+			
+			// if (stateInfoStudent.numberCMND != 9 || stateInfoStudent.numberCMND != 12) {
+			// 	setOpen(false);
+			// 	setOpenDialog(true);
+			// 	setStateAlert("Số CMND chưa hợp lệ");
+			// 	reject("Bị lỗi");
+			// }
+			// console.log(ktCMND.length);
+			
+			if (ktCMND.length > 0) {
+				setOpen(false);
+				setOpenDialog(true);
+				setStateAlert("Số CMND đã tồn tại trên hệ thống");
+				reject("Bị lỗi");
+			}
 
 			values.map((value, key) => {
 				if (value === "" || value.idProvince === "") {
@@ -737,6 +769,10 @@ export default function Admis_Form(props) {
 					reject("Bị lỗi");
 				}
 			})
+
+			
+
+
 
 			const arrayValue = Object.values(stateError);
 			const test = arrayValue.indexOf(true);
@@ -926,6 +962,7 @@ export default function Admis_Form(props) {
 	}
 
 	const handleClickInput = (event) => {
+		const name = event.target.name;
 		if (!stateError[event.target.name]) {
 			switch (event.target.name) {
 				case "fullNameStudent":
@@ -944,7 +981,7 @@ export default function Admis_Form(props) {
 				case "locationForCMDN":
 					setStateHelper(prevState => ({
 						...prevState,
-						[event.target.name]: "Ghi bằng chữ"
+						[name]: "Ghi bằng chữ"
 					}));
 					break;
 				case "numberCMND":
@@ -952,14 +989,14 @@ export default function Admis_Form(props) {
 				case "graduationYear":
 					setStateHelper(prevState => ({
 						...prevState,
-						[event.target.name]: "Ghi bằng chữ số"
+						[name]: "Ghi bằng chữ số"
 					}));
 					break;
 				case "location":
 				case "contactAddress":
 					setStateHelper(prevState => ({
 						...prevState,
-						[event.target.name]: "Ghi rõ tên tỉnh(thành phố), huyện(quận), xã(phường)"
+						[name]: "Ghi rõ tên tỉnh(thành phố), huyện(quận), xã(phường)"
 					}));
 					break;
 
@@ -1099,7 +1136,7 @@ export default function Admis_Form(props) {
 							getOptionLabel={(option) => option.Title}
 							style={{ width: '300', }}
 							disabled={name.length === 0}
-							
+
 							onChange={handleChangeDistrict}
 							renderInput={(params) => <TextField {...params} name="district" label="Mã Huyện"
 								variant="outlined" />}

@@ -1,4 +1,5 @@
 import React from "react";
+import {useEffect, useState} from "react";
 // nodejs library that concatenates classes
 // @material-ui/core components
 import {makeStyles} from "@material-ui/core/styles";
@@ -26,11 +27,36 @@ import projectsStyle from "assets/jss/material-kit-pro-react/views/sectionsSecti
 
 const useStyles = makeStyles(projectsStyle);
 
-export default function Info() {
-		
+export default function Info(props) {
+
+		const [listMajors, setlistMajors] = React.useState([]);
+
+		useEffect(() => {
+			async function fetchData() {
+				const requestUrl = `http://127.0.0.1:8000/api/info`;
+				const response = await fetch(requestUrl);
+				const responseJSON = await response.json();
+				setlistMajors(responseJSON);
+			}
+
+			fetchData();
+		}, []);
+
 		const classes = useStyles();
+
+		const render = listMajors.map((value, key) => {
+			if(value.id == props.id) {
+				console.log(value.data);
+				
+			}
+			return (
+				<div></div>
+			)
+		})
+
 		return (
 				<div className={classes.projects + " " + classes.projects4}>
+				{render}
 						<div className={classes.container}>
 								<GridContainer>
 										<GridItem
