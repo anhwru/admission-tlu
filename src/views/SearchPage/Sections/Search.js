@@ -33,7 +33,8 @@ export default function Search() {
 								backgroundImage: `url(${bg7})`,
 								backgroundPosition: 'right',
 								backgroundSize: 'cover',
-								objectFit: 'cover'
+								objectFit: 'cover',
+								height:'70vh'
 						}}
 				>
 						<div className={classes.container}>
@@ -46,7 +47,7 @@ export default function Search() {
 										>
 												<div className={classes.textCenter}>
 														<h3 className={classes.title}>Tìm kiếm hồ sơ của bạn</h3>
-														<p className={classes.description}>
+														<p className={classes.description} style={{color:'white'}}>
 																Nhập số CMND / Căn cước Công dân bạn đã đăng ký xét tuyển để xem hồ sơ và kết quả của
 																mình
 														</p>

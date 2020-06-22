@@ -67,10 +67,10 @@ export default function VFooter() {
                 >
                   Copyright &copy; {1900 + new Date().getYear()}{" "}
                   <a
-                      href="https://www.creative-tim.com?ref=mkpr-footer-components"
+                      href="http://facebook.com/npm.install.node.sass"
                       target="_blank"
                   >
-                    Creative Tim
+                    ATK Teams
                   </a>{" "}
                   All Rights Reserved.
                 </div>
@@ -81,69 +81,63 @@ export default function VFooter() {
             <GridContainer>
               <GridItem xs={12} sm={3} md={3}>
                 <a href="#pablo">
-                  <h5>Material Kit PRO</h5>
+                  <h5>Trường Đại học Thủy Lợi 1959</h5>
                 </a>
                 <p>
-                  Probably the best UI Kit in the world! We know you{"'"}ve been
-                  waiting for it, so don{"'"}t be shy!
+                  Địa chỉ: 175 Tây Sơn, Đống Đa, Hà Nội
+                  Điện thoại: (024) 38522201 - Fax: (024) 35633351
+                  Email: phonghcth@tlu.edu.vn
                 </p>
               </GridItem>
               <GridItem xs={12} sm={2} md={2}>
-                <h5>About</h5>
+                <h5>Danh mục</h5>
                 <ul className={classes.linksVertical}>
                   <li>
-                    <a href="#pablo">Blog</a>
+                    <a>Đăng ký xét tuyển</a>
                   </li>
                   <li>
-                    <a href="#pablo">About us</a>
+                    <a>Thông tin các khoa</a>
                   </li>
                   <li>
-                    <a href="#pablo">Presentation</a>
+                    <a>Tin tức tuyển sinh</a>
                   </li>
                   <li>
-                    <a href="#pablo">Contact us</a>
+                    <a>Giới thiệu</a>
                   </li>
                 </ul>
               </GridItem>
               <GridItem xs={12} sm={2} md={2}>
-                <h5>Market</h5>
+                <h5>Các phòng liên quan</h5>
                 <ul className={classes.linksVertical}>
                   <li>
-                    <a href="#pablo">Sales FAQ</a>
+                    <a>Phòng Đào tạo</a>
                   </li>
                   <li>
-                    <a href="#pablo">How to register</a>
+                    <a>Phòng CT & QLSV</a>
                   </li>
                   <li>
-                    <a href="#pablo">Sell Goods</a>
+                    <a>Phòng Tài Vụ</a>
                   </li>
                   <li>
-                    <a href="#pablo">Receive Payment</a>
-                  </li>
-                  <li>
-                    <a href="#pablo">Transactions Issues</a>
+                    <a>Phòng Khảo thí & Kiểm Định chất lượng</a>
                   </li>
                 </ul>
               </GridItem>
               <GridItem xs={12} sm={2} md={2}>
-                <h5>Legal</h5>
+                <h5>Hoạt động</h5>
                 <ul className={classes.linksVertical}>
                   <li>
-                    <a href="#pablo">Transactions FAQ</a>
+                    <a>Truy cập : <i> 769.936 lượt</i></a>
                   </li>
                   <li>
-                    <a href="#pablo">Terms & conditions</a>
-                  </li>
-                  <li>
-                    <a href="#pablo">Licenses</a>
+                    <a >Online : <i> 25 lượt</i></a>
                   </li>
                 </ul>
               </GridItem>
               <GridItem xs={12} sm={3} md={3}>
-                <h5>Subscribe to Newsletter</h5>
+                <h5>Đăng ký để nhận thông tin tư vấn tuyển sinh</h5>
                 <p>
-                  Join our newsletter and get news in your inbox every week! We
-                  hate spam too, so no worries about this.
+                  Hãy để lại email của bạn, chúng tôi sẽ gửi về hòm thư của bạn các thông tin tuyển sinh của trường ĐH Thủy Lợi được cập nhật mới nhất
                 </p>
                 <form>
                   <CustomInput
@@ -153,7 +147,7 @@ export default function VFooter() {
                         className: classes.customFormControl
                       }}
                       inputProps={{
-                        placeholder: "Your Email..."
+                        placeholder: "Email của bạn..."
                       }}
                   />
                   <Button color="primary" justIcon>
