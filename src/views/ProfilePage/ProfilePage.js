@@ -1,15 +1,14 @@
 import React from "react";
-// import { useState } from "react";
-import VNav_Header from "./Sections/VNav_Header.js";
+
 import "./Sections/Style.scss";
-// import Parallax from "components/Parallax/Parallax.js";
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import Admis_Form from "./Sections/VForm";
-import VTitle from "./Sections/VTitle";
-// import VFooter from "./Sections/VFooter";
+import VNav_Header from "../IndexPage/Sections/VNav_Header";
+import VFooter from "../IndexPage/Sections/VFooter";
+import ProfileDetail from "./Sections/ProfileDetail";
 
-function IndexPage() {
+
+function ProfilePage(props) {
 		document.documentElement.classList.remove("nav-open");
 		const checkScroll = () => {
 				const componentPosition = document.getElementsByClassName("add-animation");
@@ -34,23 +33,18 @@ function IndexPage() {
 						window.removeEventListener("scroll", checkScroll);
 				};
 		});
-
-		const [state, setState] = React.useState(null)
-		const getData = (data) => {
-			setState(data);
-		}
-		console.log(state);
+		
 		
 		return (
 				
 				<div>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<VNav_Header/>
-								<VTitle/>
-								<Admis_Form haha={(data) => {getData(data)}} />
+								<ProfileDetail id={props.id}/>
+								<VFooter/>
 						</MuiPickersUtilsProvider>
 				</div>
 		);
 }
 
-export default IndexPage;
+export default ProfilePage;

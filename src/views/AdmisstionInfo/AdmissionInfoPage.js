@@ -6,6 +6,7 @@ import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import VNav_Header from "../IndexPage/Sections/VNav_Header";
 import ListCard from "./Sections/ListCard";
+import VFooter from "../IndexPage/Sections/VFooter";
 
 
 function AdmisstionInfoPage() {
@@ -39,6 +40,7 @@ function AdmisstionInfoPage() {
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<VNav_Header/>
 								<ListCard/>
+								<VFooter/>
 						</MuiPickersUtilsProvider>
 				</div>
 		);

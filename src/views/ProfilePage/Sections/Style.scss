@@ -1,0 +1,39 @@
+.cd-section{
+  div{
+    height: auto !important;
+  }
+}
+.margin-top{
+  margin-top: 120px !important;
+  .title{
+    color: white !important;
+  }
+}
+.mgb-20{
+  margin: 0 0 20px 0 !important;
+}
+.pad-20{
+  padding: 0 0 20px 0;
+}
+.mgt-10{
+  margin-top: 50px !important;
+}
+label#input-with-icon-grid-label {
+  background: no-repeat;
+}
+.child-bold{
+  font-weight: 500;
+  div{
+    font-weight: bold;
+    font-size: 18px;
+  }
+  span{
+    margin-left: 20px;
+  }
+}
+.status{
+  div{
+    font-family: Serif;
+    font-size: 20px;
+  }
+}
