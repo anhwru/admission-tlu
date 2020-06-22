@@ -8,7 +8,7 @@ import VFooter from "../IndexPage/Sections/VFooter";
 import ProfileDetail from "./Sections/ProfileDetail";
 
 
-function ProfilePage() {
+function ProfilePage(props) {
 		document.documentElement.classList.remove("nav-open");
 		const checkScroll = () => {
 				const componentPosition = document.getElementsByClassName("add-animation");
@@ -40,7 +40,7 @@ function ProfilePage() {
 				<div>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<VNav_Header/>
-								<ProfileDetail/>
+								<ProfileDetail id={props.id}/>
 								<VFooter/>
 						</MuiPickersUtilsProvider>
 				</div>
