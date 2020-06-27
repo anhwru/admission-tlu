@@ -360,7 +360,7 @@ export default function Admis_Form(props) {
 					placeOfBirth: "Tỉnh hoặc Thành Phố"
 				}));
 				break;
-				case "nation":
+			case "nation":
 			case "locationForCMDN":
 				setStateHelper(prevState => ({
 					...prevState,
@@ -417,13 +417,18 @@ export default function Admis_Form(props) {
 		fetchData();
 	}, []);
 
-	// const handleChangeStateInfoRecords = e => {
-	// 	const { name, value } = e.target
-	// 	setStateInfoRecords(prevState => ({
-	// 		...prevState,
-	// 		[name]: value
-	// 	}))
-	// }
+	const [listCMND, setListCMND] = useState([]);
+	useEffect(() => {
+		async function fetchData() {
+			const requestUrl = 'http://127.0.0.1:8000/api/cmnd';
+			const response = await fetch(requestUrl);
+			const responseJSON = await response.json();
+
+			setListCMND(responseJSON)
+		}
+
+		fetchData();
+	}, []);
 
 	const listMajor = stateMajors.nganh.map((value, key) => {
 		return (<MenuItem
@@ -705,11 +710,46 @@ export default function Admis_Form(props) {
 
 	const validateForForm = () => {
 		console.log(stateNguyenVong);
-		
+
 		setOpen(true);
 		return new Promise((resolve, reject) => {
 			const keys = Object.keys(stateInfoStudent);
 			const values = Object.values(stateInfoStudent);
+
+			const ktCMND = listCMND.filter((value, key) => {
+				return value.cmnd == stateInfoStudent.numberCMND;
+			})
+
+			var re = /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm;
+			if(stateInfoStudent.email.search(re) == -1) {
+				setOpen(false);
+				setOpenDialog(true);
+				setStateAlert("Email chưa đúng dạng 'Email@domain.com'");
+				reject("Bị lỗi");
+			}
+
+			var re1 = /(09|01[2|6|8|9])+([0-9]{8})\b/g
+			if(stateInfoStudent.phoneNumber.search(re1) == -1) {
+				setOpen(false);
+				setOpenDialog(true);
+				setStateAlert("Số điện thoại chưa hợp lệ");
+				reject("Bị lỗi");
+			}
+			
+			if (!(stateInfoStudent.numberCMND.length == 9 || stateInfoStudent.numberCMND.length == 12)) {
+				setOpen(false);
+				setOpenDialog(true);
+				setStateAlert("Số CMND chỉ có thể có 9 số hoặc 12 số");
+				reject("Bị lỗi");
+			}
+			console.log(stateInfoStudent.numberCMND.length);
+			
+			if (ktCMND.length > 0) {
+				setOpen(false);
+				setOpenDialog(true);
+				setStateAlert("Số CMND đã tồn tại trên hệ thống");
+				reject("Bị lỗi");
+			}
 
 			values.map((value, key) => {
 				if (value === "" || value.idProvince === "") {
@@ -822,13 +862,6 @@ export default function Admis_Form(props) {
 	}
 
 	const ResetForm = () => {
-		// return (<Redirect
-		//     to={{
-		//       pathname: "/thong-tin-cac-nganh"
-		//     }}
-		//   />);
-		// setRedirectToInfo(<Redirect push to="/" />)
-
 		const data = `${Math.round(Math.random() * 1000000000000)}`;
 		props.haha(data)
 
@@ -926,6 +959,7 @@ export default function Admis_Form(props) {
 	}
 
 	const handleClickInput = (event) => {
+		const name = event.target.name;
 		if (!stateError[event.target.name]) {
 			switch (event.target.name) {
 				case "fullNameStudent":
@@ -944,7 +978,7 @@ export default function Admis_Form(props) {
 				case "locationForCMDN":
 					setStateHelper(prevState => ({
 						...prevState,
-						[event.target.name]: "Ghi bằng chữ"
+						[name]: "Ghi bằng chữ"
 					}));
 					break;
 				case "numberCMND":
@@ -952,14 +986,14 @@ export default function Admis_Form(props) {
 				case "graduationYear":
 					setStateHelper(prevState => ({
 						...prevState,
-						[event.target.name]: "Ghi bằng chữ số"
+						[name]: "Ghi bằng chữ số"
 					}));
 					break;
 				case "location":
 				case "contactAddress":
 					setStateHelper(prevState => ({
 						...prevState,
-						[event.target.name]: "Ghi rõ tên tỉnh(thành phố), huyện(quận), xã(phường)"
+						[name]: "Ghi rõ tên tỉnh(thành phố), huyện(quận), xã(phường)"
 					}));
 					break;
 
@@ -1099,7 +1133,7 @@ export default function Admis_Form(props) {
 							getOptionLabel={(option) => option.Title}
 							style={{ width: '300', }}
 							disabled={name.length === 0}
-							
+
 							onChange={handleChangeDistrict}
 							renderInput={(params) => <TextField {...params} name="district" label="Mã Huyện"
 								variant="outlined" />}
@@ -1287,7 +1321,7 @@ export default function Admis_Form(props) {
 							variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.contactAddress} helperText={stateHelper.contactAddress} />
 					</GridItem>
 					<GridItem sm={4} xs={4} lg={4} className="mg-10">
-						<TextField label="Năm tốt nghiệp" name="graduationYear" onChange={handleChange2}
+						<TextField label="Năm tốt nghiệp" name="graduationYear" onChange={handleChange2} type="number"
 							variant="outlined" required={true} onBlur={handleOutInput} onClick={handleClickInput} error={stateError.graduationYear} helperText={stateHelper.graduationYear} />
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} className="mg-10">
@@ -1318,6 +1352,24 @@ export default function Admis_Form(props) {
 									value="KV1"
 								>
 									KV1
+																</MenuItem>
+																<MenuItem
+									classes={{
+										root: classesform.selectMenuItem,
+										selected: classesform.selectMenuItemSelected
+									}}
+									value="KV2"
+								>
+									KV2
+																</MenuItem>
+																<MenuItem
+									classes={{
+										root: classesform.selectMenuItem,
+										selected: classesform.selectMenuItemSelected
+									}}
+									value="KV2-NT"
+								>
+									KV2-NT
 																</MenuItem>
 								<MenuItem
 									classes={{
@@ -1369,6 +1421,51 @@ export default function Admis_Form(props) {
 									value="02"
 								>
 									02
+																</MenuItem>
+																<MenuItem
+									classes={{
+										root: classesform.selectMenuItem,
+										selected: classesform.selectMenuItemSelected
+									}}
+									value="03"
+								>
+									03
+																</MenuItem>
+																<MenuItem
+									classes={{
+										root: classesform.selectMenuItem,
+										selected: classesform.selectMenuItemSelected
+									}}
+									value="04"
+								>
+									04
+																</MenuItem>
+																<MenuItem
+									classes={{
+										root: classesform.selectMenuItem,
+										selected: classesform.selectMenuItemSelected
+									}}
+									value="05"
+								>
+									05
+																</MenuItem>
+																<MenuItem
+									classes={{
+										root: classesform.selectMenuItem,
+										selected: classesform.selectMenuItemSelected
+									}}
+									value="06"
+								>
+									06
+																</MenuItem>
+																<MenuItem
+									classes={{
+										root: classesform.selectMenuItem,
+										selected: classesform.selectMenuItemSelected
+									}}
+									value="07"
+								>
+									07
 																</MenuItem>
 							</Select>
 							<FormHelperText error={true}>{stateHelper.doiTuongUuTien}</FormHelperText>
